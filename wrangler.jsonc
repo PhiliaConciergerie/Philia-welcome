@@ -1,7 +1,15 @@
 {
   "name": "philia-welcome",
   "compatibility_date": "2024-09-23",
+  "main": "src/worker.js",
   "assets": {
-    "directory": "./out"
-  }
+    "directory": "./out",
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "LOGEMENTS_SECRETS",
+      "id": "REMPLACER_PAR_ID_KV"
+    }
+  ]
 }
