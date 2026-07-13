@@ -1,5 +1,6 @@
 import { logements } from '../../data/logements';
 import { notFound } from 'next/navigation';
+import AccesSensible from './AccesSensible';
 
 export function generateStaticParams() {
   return Object.keys(logements).map((slug) => ({ slug }));
@@ -60,11 +61,12 @@ export default function LogementPage({ params }) {
         </>
       )}
 
+      <h2>Informations d&apos;arrivée</h2>
+      <AccesSensible slug={params.slug} />
+
       <p className="footer-note">
-        Le wifi et le code d&apos;accès vous ont été (ou vous seront) envoyés
-        directement par message avant votre arrivée.
         {logement.contactUrgence && (
-          <> Une question ? Contactez-nous au {logement.contactUrgence}.</>
+          <>Une question ? Contactez-nous au {logement.contactUrgence}.</>
         )}
       </p>
     </main>
