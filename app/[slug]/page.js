@@ -1,3 +1,4 @@
+import CartePlan from './CartePlan';
 import { logements } from '../../data/logements';
 import { notFound } from 'next/navigation';
 import AccesSensible from './AccesSensible';
