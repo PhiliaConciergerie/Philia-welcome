@@ -40,7 +40,9 @@ export const logements = {
 
     // --- Poubelles et tri ---
     poubelles: '',
-
+// --- Position géographique (pour la carte des environs) ---
+    lat: null,
+    lng: null,
     // --- Recommandations locales ---
     recommandations: [
       // { nom: '...', description: '...' },
