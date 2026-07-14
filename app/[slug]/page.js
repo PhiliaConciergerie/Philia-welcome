@@ -27,9 +27,9 @@ export default function LogementPage({ params }) {
       <h1>{logement.nom}</h1>
       <p className="desc">{logement.description}</p>
 
-      {logement.photos && logement.photos.length > 0 && (
+      {logement.photosAccueil && logement.photosAccueil.length > 0 && (
         <div className="photos">
-          {logement.photos.map((src) => (
+          {logement.photosAccueil.map((src) => (
             <img key={src} src={src} alt={logement.nom} />
           ))}
         </div>
@@ -49,6 +49,31 @@ export default function LogementPage({ params }) {
         <p>{logement.depart}</p>
       </div>
 
+      <h2>Informations d&apos;arrivée</h2>
+      <AccesSensible slug={params.slug} />
+
+      {logement.reglesMaison && logement.reglesMaison.length > 0 && (
+        <>
+          <h2>Règles de la maison</h2>
+          <div className="card">
+            <ul>
+              {logement.reglesMaison.map((regle) => (
+                <li key={regle}>{regle}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+
+      {logement.poubelles && (
+        <>
+          <h2>Poubelles et tri</h2>
+          <div className="card">
+            <p>{logement.poubelles}</p>
+          </div>
+        </>
+      )}
+
       {logement.recommandations && logement.recommandations.length > 0 && (
         <>
           <h2>Nos recommandations</h2>
@@ -61,8 +86,44 @@ export default function LogementPage({ params }) {
         </>
       )}
 
-      <h2>Informations d&apos;arrivée</h2>
-      <AccesSensible slug={params.slug} />
+      {logement.photosVille && logement.photosVille.length > 0 && (
+        <>
+          <h2>La ville et ses environs</h2>
+          <div className="photos">
+            {logement.photosVille.map((src) => (
+              <img key={src} src={src} alt="La ville et ses environs" />
+            ))}
+          </div>
+        </>
+      )}
+
+      {logement.boutique && logement.boutique.length > 0 && (
+        <>
+          <h2>Notre boutique</h2>
+          {logement.boutique.map((p) => (
+            <div className="card" key={p.nom}>
+              <div className="label">
+                {p.nom}
+                {p.prix && <> — {p.prix}</>}
+              </div>
+              <p>{p.description}</p>
+            </div>
+          ))}
+        </>
+      )}
+
+      {logement.checkout && logement.checkout.length > 0 && (
+        <>
+          <h2>Check-out</h2>
+          <div className="card">
+            <ul>
+              {logement.checkout.map((etape) => (
+                <li key={etape}>{etape}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
 
       <p className="footer-note">
         {logement.contactUrgence && (
