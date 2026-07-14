@@ -34,23 +34,48 @@ export default function AccesSensible({ slug }) {
 
   if (infos) {
     return (
-      <div className="card">
-        {infos.wifiNom && (
+      <div>
+        {(infos.accesDescription || (infos.accesPhotos && infos.accesPhotos.length > 0)) && (
+          <div className="card">
+            <div className="label">Accès au logement</div>
+            {infos.accesDescription && <p>{infos.accesDescription}</p>}
+            {infos.accesPhotos && infos.accesPhotos.length > 0 && (
+              <div className="photos">
+                {infos.accesPhotos.map((src) => (
+                  <img key={src} src={src} alt="Accès au logement" />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {infos.equipements && infos.equipements.length > 0 && (
           <>
-            <div className="label">Wifi</div>
-            <p>
-              Réseau : {infos.wifiNom}
-              {infos.wifiMotDePasse && <> — Mot de passe : {infos.wifiMotDePasse}</>}
-            </p>
+            <div className="label" style={{ marginTop: 16, marginBottom: 8 }}>
+              Équipements
+            </div>
+            {infos.equipements.map((eq) => (
+              <div className="card" key={eq.nom}>
+                <div className="label">{eq.nom}</div>
+                <p>{eq.description}</p>
+                {eq.photo && (
+                  <div className="photos" style={{ gridTemplateColumns: '1fr' }}>
+                    <img src={eq.photo} alt={eq.nom} />
+                  </div>
+                )}
+              </div>
+            ))}
           </>
         )}
-        {infos.codeAcces && (
-          <>
-            <div className="label" style={{ marginTop: 10 }}>
-              Accès
-            </div>
-            <p>{infos.codeAcces}</p>
-          </>
+
+        {(infos.wifiNom || infos.wifiMotDePasse) && (
+          <div className="card" style={{ marginTop: 12 }}>
+            <div className="label">Wifi</div>
+            <p>
+              {infos.wifiNom && <>Réseau : {infos.wifiNom}</>}
+              {infos.wifiMotDePasse && <> — Mot de passe : {infos.wifiMotDePasse}</>}
+            </p>
+          </div>
         )}
       </div>
     );
