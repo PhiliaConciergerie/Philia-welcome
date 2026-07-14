@@ -67,4 +67,21 @@ export const logements = {
     // --- Contact ---
     contactUrgence: '',
   },
+  'test': {
+    nom: 'Test carte',
+    adresse: 'Adresse de test',
+    description: 'Ceci est une page de test, à supprimer après vérification.',
+    arrivee: '',
+    depart: '',
+    photosAccueil: [],
+    lat: 43.638201,
+    lng: 1.381619,
+    reglesMaison: [],
+    poubelles: '',
+    recommandations: [],
+    photosVille: [],
+    checkout: [],
+    boutique: [],
+    contactUrgence: '',
+  },
 };
