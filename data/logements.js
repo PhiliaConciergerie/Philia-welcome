@@ -1,16 +1,68 @@
+// ============================================================
+// C'EST ICI QUE VOUS AJOUTEZ / MODIFIEZ VOS LOGEMENTS.
+// Ce fichier est PUBLIC (visible sur GitHub).
+//
+// Pour un nouveau logement :
+//  1. Copiez tout le bloc "modele-vierge" ci-dessous (de { à },)
+//  2. Collez-le juste avant le dernier "};" du fichier
+//  3. Remplacez "modele-vierge" par un identifiant court
+//     (sans espace ni accent) -> ex: "saint-pierre", "capitole-2"
+//     C'est ce qui devient l'adresse du livret :
+//     https://livret.philiaconciergerie.fr/<identifiant>
+//
+// IMPORTANT : le wifi, les instructions/photos d'accès et les
+// équipements se configurent séparément, dans le coffre-fort KV
+// de Cloudflare (protégés par code) — pas ici.
+// ============================================================
+
 export const logements = {
-  'saint-pierre': {
-    nom: 'Le Saint-Pierre',
-    adresse: '12 rue des Lilas, 31000 Toulouse',
-    description:
-      "Un appartement lumineux au cœur de Toulouse, à deux pas de la place Saint-Pierre et de ses terrasses.",
-    arrivee: 'à partir de 16h00',
-    depart: 'avant 11h00',
-    photos: [],
-    recommandations: [
-      { nom: 'Boulangerie du coin', description: 'Croissants et pain frais, à 3 minutes à pied.' },
-      { nom: 'Place Saint-Pierre', description: 'Bars et restaurants au bord de la Garonne.' },
+  'modele-vierge': {
+    // --- Présentation ---
+    nom: '',
+    adresse: '',
+    description: '',
+
+    // --- Horaires ---
+    arrivee: '',
+    depart: '',
+
+    // --- Photos d'accueil (déposez les fichiers dans
+    // public/logements/<identifiant>/) ---
+    photosAccueil: [
+      // '/logements/<identifiant>/salon-nom-logement.jpg',
     ],
-    contactUrgence: '06 00 00 00 00',
+
+    // --- Règles de la maison ---
+    reglesMaison: [
+      // 'Non-fumeur',
+      // 'Calme après 22h',
+    ],
+
+    // --- Poubelles et tri ---
+    poubelles: '',
+
+    // --- Recommandations locales ---
+    recommandations: [
+      // { nom: '...', description: '...' },
+    ],
+
+    // --- Photos de la ville et des environs ---
+    photosVille: [
+      // '/logements/<identifiant>/place-du-capitole-toulouse.jpg',
+    ],
+
+    // --- Check-out ---
+    checkout: [
+      // 'Déposer les clés dans la boîte',
+      // 'Sortir les poubelles',
+    ],
+
+    // --- Notre boutique : ventes additionnelles (optionnel) ---
+    boutique: [
+      // { nom: 'Petit-déjeuner livré', description: '...', prix: '15€' },
+    ],
+
+    // --- Contact ---
+    contactUrgence: '',
   },
 };
