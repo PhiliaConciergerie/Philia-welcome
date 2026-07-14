@@ -76,6 +76,12 @@ export default function LogementPage({ params }) {
 
       {logement.recommandations && logement.recommandations.length > 0 && (
         <>
+        {logement.lat && logement.lng && (
+        <>
+          <h2>Autour du logement</h2>
+          <CartePlan lat={logement.lat} lng={logement.lng} nom={logement.nom} />
+        </>
+      )}
           <h2>Nos recommandations</h2>
           {logement.recommandations.map((r) => (
             <div className="reco" key={r.nom}>
