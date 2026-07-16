@@ -16,72 +16,37 @@
 // ============================================================
 
 export const logements = {
-  'modele-vierge': {
-    // --- Présentation ---
-    nom: '',
-    adresse: '',
-    description: '',
-
-    // --- Horaires ---
-    arrivee: '',
-    depart: '',
-
-    // --- Photos d'accueil (déposez les fichiers dans
-    // public/logements/<identifiant>/) ---
-    photosAccueil: [
-      // '/logements/<identifiant>/salon-nom-logement.jpg',
-    ],
-
-    // --- Règles de la maison ---
-    reglesMaison: [
-      // 'Non-fumeur',
-      // 'Calme après 22h',
-    ],
-
-    // --- Poubelles et tri ---
-    poubelles: '',
-// --- Position géographique (pour la carte des environs) ---
-    lat: null,
-    lng: null,
-    // --- Recommandations locales ---
-    recommandations: [
-      // { nom: '...', description: '...' },
-    ],
-
-    // --- Photos de la ville et des environs ---
-    photosVille: [
-      // '/logements/<identifiant>/place-du-capitole-toulouse.jpg',
-    ],
-
-    // --- Check-out ---
-    checkout: [
-      // 'Déposer les clés dans la boîte',
-      // 'Sortir les poubelles',
-    ],
-
-    // --- Notre boutique : ventes additionnelles (optionnel) ---
-    boutique: [
-      // { nom: 'Petit-déjeuner livré', description: '...', prix: '15€' },
-    ],
-
-    // --- Contact ---
-    contactUrgence: '',
-  },
-  'test': {
-    nom: 'Test carte',
-    adresse: 'Adresse de test',
-    description: 'Ceci est une page de test, à supprimer après vérification.',
-    arrivee: '',
-    depart: '',
+    'spacieux-T4-Blagnac': {
+    nom: 'spacieux-t4-lumineux-parking-aeroport-meett',
+    adresse: '8 rue des marguerites, 31700, Blagnac',
+    description: 'Appartement T4',
+    arrivee: '17H00',
+    depart: '11H00',
+    lat: 43.6382,
+    lng: 1.38162,
     photosAccueil: [],
-    lat: 43.638201,
-    lng: 1.381619,
-    reglesMaison: [],
+    reglesMaison: [
+      'Non fumeur',
+      'calme de 22h00 à 7H00',
+    ],
     poubelles: '',
     recommandations: [],
     photosVille: [],
-    checkout: [],
-    boutique: [],
-    contactUrgence: '',
+    checkout: [
+      'Afin de faciliter le travail de notre équipe et de respecter les lieux, nous vous remercions par avance de bien vouloir :',
+      '• laver et ranger la vaisselle,',
+      '• jeter les ordures dans les containers prévus à cet effet,',
+      '• déposer les bouteilles en verre dans un point de collecte de la ville,',
+      '• rassembler les serviettes ainsi que le tapis de bain,',
+      '• remettre en place les meubles éventuellement déplacés.',
+      'Avant de partir, merci également de :',
+      '• éteindre les lumières et les ventilateurs,',
+      '• fermer les fenêtres,',
+      '• vérifier que vous n’oubliez aucun effet personnel.',
+    ],
+    boutique: [
+      { nom: 'arrivée anticipée 5 euros/heure', description: '', prix: '' },
+      { nom: 'idem pour départ', description: '', prix: '' },
+    ],
+    contactUrgence: '0783466296',
   },
-};
