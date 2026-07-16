@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de logement — Philia Conciergerie</title>
+<style>
+  :root {
+    --ink: #23261f; --paper: #f7f5ee; --panel: #ffffff; --line: #ded9c7;
+    --clay: #a8623f; --clay-dark: #8a4e32; --moss: #556b4f; --muted: #7a7666;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 28px; }
+  .eyebrow { font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; color: var(--clay); font-weight: 600; margin-bottom: 8px; }
+  h1 { font-size: 28px; margin: 0 0 6px; font-weight: 400; }
+  .sub { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 70ch; }
+  .part-title { font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 700; margin: 40px 0 4px; padding-top: 16px; border-top: 2px solid var(--line); }
+  .part-sub { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .part-sub.protected { color: var(--clay-dark); }
+  .section-title { font-family: -apple-system, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--moss); font-weight: 700; margin: 26px 0 12px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  .field { margin-bottom: 14px; }
+  .field.full { grid-column: 1 / -1; }
+  label { display: block; font-family: -apple-system, sans-serif; font-size: 12.5px; font-weight: 600; margin-bottom: 5px; }
+  label .hint { font-weight: 400; color: var(--muted); }
+  input, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); font-family: -apple-system, sans-serif; font-size: 14px; color: var(--ink); }
+  input:focus, textarea:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px rgba(168,98,63,0.12); }
+  textarea { resize: vertical; min-height: 60px; }
+  .list-block { border: 1px solid var(--line); border-radius: 6px; padding: 12px; background: var(--panel); margin-bottom: 6px; }
+  .list-block textarea { min-height: 80px; }
+  .list-hint { font-family: -apple-system, sans-serif; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .output-panel { margin-top: 30px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; }
+  .output-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--line); background: #fbfaf5; }
+  .output-header h2 { font-size: 14px; font-weight: 700; margin: 0; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.06em; color: var(--moss); }
+  button.copy { font-family: -apple-system, sans-serif; font-size: 12.5px; font-weight: 600; background: var(--clay); color: #fff; border: none; padding: 8px 14px; border-radius: 5px; cursor: pointer; }
+  button.copy:hover { background: var(--clay-dark); }
+  button.copy.copied { background: var(--moss); }
+  pre#outData, pre#outKV { margin: 0; padding: 18px; white-space: pre-wrap; word-break: break-word; font-family: 'SF Mono', Consolas, monospace; font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+  .note { margin-top: 14px; font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--clay); padding-left: 12px; }
+  .kv-key { font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); padding: 10px 18px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Philia Conciergerie · Générateur</div>
+    <h1>Ajouter un nouveau logement</h1>
+    <p class="sub">Remplissez ce formulaire, puis copiez les deux blocs générés en bas : le premier dans <code>data/logements.js</code> sur GitHub (public), le second dans le coffre-fort KV de Cloudflare (protégé par code, jamais sur GitHub).</p>
+  </header>
+
+  <div class="field full">
+    <label>Identifiant du logement <span class="hint">(sans espace ni accent — devient l'adresse du livret)</span></label>
+    <input id="slug" placeholder="ex. capitole-2">
+  </div>
+
+  <div class="part-title">1. Contenu public</div>
+  <div class="part-sub">Visible par tout le monde, sans code.</div>
+
+  <div class="grid">
+    <div>
+      <div class="field"><label>Nom du logement</label><input id="nom" placeholder="ex. Le Capitole"></div>
+      <div class="field">
+        <label>Adresse</label>
+        <input id="adresse" placeholder="Adresse complète">
+        <div class="list-hint" id="geoStatus" style="margin-top:6px;">
+          <button type="button" id="geocoder" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--clay-dark);">Localiser cette adresse sur la carte</button>
+        </div>
+      </div>
+      <div class="field"><label>Description</label><textarea id="description" placeholder="Une ou deux phrases de présentation"></textarea></div>
+      <div class="field"><label>Arrivée</label><input id="arrivee" placeholder="ex. à partir de 16h00"></div>
+      <div class="field"><label>Départ</label><input id="depart" placeholder="ex. avant 11h00"></div>
+      <div class="field"><label>Contact urgence</label><input id="contactUrgence" placeholder="06 00 00 00 00"></div>
+      <div class="field"><label>Poubelles et tri</label><textarea id="poubelles" placeholder="Emplacement, jours de collecte, consignes de tri"></textarea></div>
+    </div>
+
+    <div>
+      <div class="field">
+        <label>Photos d'accueil <span class="hint">(un type par ligne)</span></label>
+        <div class="list-block"><textarea id="photosAccueil" placeholder="salon&#10;chambre double&#10;cuisine"></textarea></div>
+        <div class="list-hint" id="photosAccueilHint"></div>
+      </div>
+      <div class="field">
+        <label>Règles de la maison <span class="hint">(une par ligne)</span></label>
+        <div class="list-block"><textarea id="regles" placeholder="Non-fumeur&#10;Calme après 22h"></textarea></div>
+      </div>
+      <div class="field">
+        <label>Recommandations <span class="hint">(une par ligne : Nom — description)</span></label>
+        <div class="list-block"><textarea id="recommandations" placeholder="Boulangerie du coin — croissants frais, 3 min à pied"></textarea></div>
+      </div>
+      <div class="field">
+        <label>Photos de la ville <span class="hint">(un type par ligne)</span></label>
+        <div class="list-block"><textarea id="photosVille" placeholder="place du capitole&#10;canal du midi"></textarea></div>
+        <div class="list-hint" id="photosVilleHint"></div>
+      </div>
+      <div class="field">
+        <label>Check-out <span class="hint">(une étape par ligne)</span></label>
+        <div class="list-block"><textarea id="checkout" placeholder="Déposer les clés dans la boîte&#10;Sortir les poubelles"></textarea></div>
+      </div>
+      <div class="field">
+        <label>Notre boutique <span class="hint">(une par ligne : Nom — description — prix, laissez vide si pas prêt)</span></label>
+        <div class="list-block"><textarea id="boutique" placeholder="Petit-déjeuner livré — croissants et jus frais — 15€"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="part-title">2. Contenu protégé par code</div>
+  <div class="part-sub protected">Affiché uniquement après saisie du bon code par le voyageur (équipements, accès, wifi).</div>
+
+  <div class="grid">
+    <div>
+      <div class="field"><label>Code d'accès au livret</label><input id="codeVerif" placeholder="ex. AB72XP"></div>
+      <div class="field"><label>Nom du réseau wifi</label><input id="wifiNom" placeholder="ex. Logement_Capitole"></div>
+      <div class="field"><label>Mot de passe wifi</label><input id="wifiMdp" placeholder="ex. bienvenue2026"></div>
+      <div class="field">
+        <label>Instructions d'accès</label>
+        <textarea id="accesDescription" placeholder="Sonnez à l'interphone, 2e porte à gauche. Boîte à clés sous l'escalier, code 4821."></textarea>
+      </div>
+      <div class="field">
+        <label>Photos d'accès <span class="hint">(un type par ligne — inclure la boîte à clés ici)</span></label>
+        <div class="list-block"><textarea id="accesPhotos" placeholder="facade&#10;interphone&#10;boite a cles"></textarea></div>
+        <div class="list-hint" id="accesPhotosHint"></div>
+      </div>
+    </div>
+    <div>
+      <div class="field">
+        <label>Équipements <span class="hint">(un par ligne : Nom — description — type de photo optionnel)</span></label>
+        <div class="list-block"><textarea id="equipements" placeholder="Cafetière Nespresso — capsules dans le tiroir — cafetiere&#10;Lave-linge — sous l'évier"></textarea></div>
+        <div class="list-hint" id="equipementsHint"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="output-panel">
+    <div class="output-header">
+      <h2>Bloc à coller dans data/logements.js (public)</h2>
+      <button class="copy" id="copyData">Copier</button>
+    </div>
+    <pre id="outData"></pre>
+  </div>
+
+  <div class="output-panel">
+    <div class="output-header">
+      <h2>Entrée à créer dans le coffre-fort KV (protégée)</h2>
+      <button class="copy" id="copyKV">Copier la valeur</button>
+    </div>
+    <div class="kv-key">Key : <strong id="kvKeyDisplay">—</strong></div>
+    <pre id="outKV"></pre>
+  </div>
+
+  <p class="note">Renommez vos fichiers photo exactement comme indiqué sous chaque champ avant de les déposer dans public/logements/&lt;identifiant&gt;/. Les photos protégées (accès, équipements) vont dans le même dossier public/logements/&lt;identifiant&gt;/ — elles ne sont simplement jamais listées ni liées nulle part publiquement, seul le coffre-fort KV connaît leur chemin, révélé uniquement après le bon code.</p>
+</div>
+
+<script>
+  const ids = ['slug','nom','adresse','description','arrivee','depart','contactUrgence','poubelles',
+    'photosAccueil','regles','recommandations','photosVille','checkout','boutique',
+    'codeVerif','wifiNom','wifiMdp','accesDescription','accesPhotos','equipements'];
+  const el = {};
+  ids.forEach(id => el[id] = document.getElementById(id));
+
+  function lines(id) {
+    return el[id].value.split('\n').map(s => s.trim()).filter(Boolean);
+  }
+
+  function jsStr(s) {
+    return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
+  }
+
+  function pairLines(id) {
+    return lines(id).map(line => {
+      const [nom, ...rest] = line.split('—');
+      return { nom: (nom || '').trim(), description: rest.join('—').trim() };
+    });
+  }
+
+  function tripleLines(id) {
+    return lines(id).map(line => {
+      const parts = line.split('—').map(p => p.trim());
+      return { nom: parts[0] || '', description: parts[1] || '', extra: parts[2] || '' };
+    });
+  }
+
+  function slugify(str) {
+    return String(str)
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-+|-+$)/g, '');
+  }
+
+  function photoList(fieldId, hintId, slug, nomSlug) {
+    const types = lines(fieldId);
+    const files = types.map(t => `${slugify(t)}-${nomSlug}.jpg`);
+    document.getElementById(hintId).textContent = files.length
+      ? 'Renommez vos fichiers ainsi : ' + files.join(', ')
+      : '';
+    return files.map(f => `/logements/${slug}/${f}`);
+  }
+
+  let currentLat = null;
+  let currentLng = null;
+
+  document.getElementById('geocoder').addEventListener('click', async () => {
+    const btn = document.getElementById('geocoder');
+    const adresse = el.adresse.value.trim();
+    if (!adresse) {
+      alert('Renseignez d\'abord une adresse.');
+      return;
+    }
+    btn.textContent = 'Recherche...';
+    try {
+      const res = await fetch(
+        'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(adresse)
+      );
+      const results = await res.json();
+      if (results && results.length > 0) {
+        currentLat = parseFloat(results[0].lat);
+        currentLng = parseFloat(results[0].lon);
+        btn.textContent = 'Adresse localisée ✓ (' + currentLat.toFixed(4) + ', ' + currentLng.toFixed(4) + ')';
+      } else {
+        btn.textContent = 'Adresse introuvable, réessayez';
+        currentLat = null;
+        currentLng = null;
+      }
+    } catch {
+      btn.textContent = 'Erreur, réessayez';
+    }
+    generate();
+  });
+
+  function generate() {
+    const slug = el.slug.value.trim() || 'identifiant-logement';
+    const nomSlug = slugify(el.nom.value) || slug;
+
+    const photosAccueil = photoList('photosAccueil', 'photosAccueilHint', slug, nomSlug);
+    const photosVille = photoList('photosVille', 'photosVilleHint', slug, nomSlug);
+    const accesPhotos = photoList('accesPhotos', 'accesPhotosHint', slug, nomSlug);
+
+    const regles = lines('regles');
+    const reco = pairLines('recommandations');
+    const checkout = lines('checkout');
+    const boutique = tripleLines('boutique').map(b => ({ nom: b.nom, description: b.description, prix: b.extra }));
+    const equipementsRaw = tripleLines('equipements');
+    const equipementsHintFiles = equipementsRaw
+      .filter(e => e.extra)
+      .map(e => `${slugify(e.extra)}-${nomSlug}.jpg`);
+    document.getElementById('equipementsHint').textContent = equipementsHintFiles.length
+      ? 'Renommez les photos d\'équipement ainsi : ' + equipementsHintFiles.join(', ')
+      : '';
+    const equipements = equipementsRaw.map(e => ({
+      nom: e.nom,
+      description: e.description,
+      photo: e.extra ? `/logements/${slug}/${slugify(e.extra)}-${nomSlug}.jpg` : '',
+    }));
+
+    // ---- Bloc public (data/logements.js) ----
+    let data = `  ${jsStr(slug)}: {\n`;
+    data += `    nom: ${jsStr(el.nom.value)},\n`;
+    data += `    adresse: ${jsStr(el.adresse.value)},\n`;
+    data += `    description: ${jsStr(el.description.value)},\n`;
+    data += `    arrivee: ${jsStr(el.arrivee.value)},\n`;
+    data += `    depart: ${jsStr(el.depart.value)},\n`;
+    data += `    lat: ${currentLat !== null ? currentLat : 'null'},\n`;
+    data += `    lng: ${currentLng !== null ? currentLng : 'null'},\n`;
+    data += `    photosAccueil: [${photosAccueil.map(p => '\n      ' + jsStr(p)).join(',')}${photosAccueil.length ? ',\n    ' : ''}],\n`;
+    data += `    reglesMaison: [${regles.map(r => '\n      ' + jsStr(r)).join(',')}${regles.length ? ',\n    ' : ''}],\n`;
+    data += `    poubelles: ${jsStr(el.poubelles.value)},\n`;
+    data += `    recommandations: [${reco.map(r => `\n      { nom: ${jsStr(r.nom)}, description: ${jsStr(r.description)} }`).join(',')}${reco.length ? ',\n    ' : ''}],\n`;
+    data += `    photosVille: [${photosVille.map(p => '\n      ' + jsStr(p)).join(',')}${photosVille.length ? ',\n    ' : ''}],\n`;
+    data += `    checkout: [${checkout.map(c => '\n      ' + jsStr(c)).join(',')}${checkout.length ? ',\n    ' : ''}],\n`;
+    data += `    boutique: [${boutique.map(b => `\n      { nom: ${jsStr(b.nom)}, description: ${jsStr(b.description)}, prix: ${jsStr(b.prix)} }`).join(',')}${boutique.length ? ',\n    ' : ''}],\n`;
+    data += `    contactUrgence: ${jsStr(el.contactUrgence.value)},\n`;
+    data += `  },`;
+    document.getElementById('outData').textContent = data;
+
+    // ---- Bloc protégé (KV) ----
+    const kv = {
+      code: el.codeVerif.value.trim(),
+      wifiNom: el.wifiNom.value.trim(),
+      wifiMotDePasse: el.wifiMdp.value.trim(),
+      accesDescription: el.accesDescription.value.trim(),
+      accesPhotos: accesPhotos,
+      equipements: equipements,
+    };
+    document.getElementById('outKV').textContent = JSON.stringify(kv);
+    document.getElementById('kvKeyDisplay').textContent = slug;
+  }
+
+  ids.forEach(id => el[id].addEventListener('input', generate));
+
+  function wireCopy(btnId, targetId) {
+    document.getElementById(btnId).addEventListener('click', () => {
+      const btn = document.getElementById(btnId);
+      navigator.clipboard.writeText(document.getElementById(targetId).textContent).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copié ✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+      });
+    });
+  }
+  wireCopy('copyData', 'outData');
+  wireCopy('copyKV', 'outKV');
+
+  generate();
+</script>
+</body>
+</html>
