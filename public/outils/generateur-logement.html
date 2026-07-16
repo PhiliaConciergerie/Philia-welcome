@@ -111,7 +111,13 @@
 
   <div class="grid">
     <div>
-      <div class="field"><label>Code d'accès au livret</label><input id="codeVerif" placeholder="ex. AB72XP"></div>
+      <div class="field">
+        <label>Code d'accès au livret</label>
+        <div style="display:flex; gap:8px;">
+          <input id="codeVerif" placeholder="ex. AB72XP" style="flex:1;">
+          <button type="button" id="genCode" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:0 10px;cursor:pointer;color:var(--clay-dark);white-space:nowrap;">Générer</button>
+        </div>
+      </div>
       <div class="field"><label>Nom du réseau wifi</label><input id="wifiNom" placeholder="ex. Logement_Capitole"></div>
       <div class="field"><label>Mot de passe wifi</label><input id="wifiMdp" placeholder="ex. bienvenue2026"></div>
       <div class="field">
