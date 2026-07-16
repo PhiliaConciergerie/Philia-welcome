@@ -207,7 +207,16 @@
 
   let currentLat = null;
   let currentLng = null;
-
+  
+document.getElementById('genCode').addEventListener('click', () => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sans caractères ambigus (0/O, 1/I)
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += chars[Math.floor(Math.random() * chars.length)];
+    }
+    el.codeVerif.value = code;
+    generate();
+  });
   document.getElementById('geocoder').addEventListener('click', async () => {
     const btn = document.getElementById('geocoder');
     const adresse = el.adresse.value.trim();
