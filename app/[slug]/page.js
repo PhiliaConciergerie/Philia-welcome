@@ -39,7 +39,15 @@ export default function LogementPage({ params }) {
       <h2>Informations pratiques</h2>
       <div className="card">
         <div className="label">Adresse</div>
-        <p>{logement.adresse}</p>
+        <p>
+          
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(logement.adresse)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {logement.adresse}
+          </a>
+        </p>
       </div>
       <div className="card">
         <div className="label">Arrivée</div>
