@@ -125,3 +125,48 @@ p {
   font-size: 13px;
   color: var(--muted);
 }
+.site-header {
+  text-align: center;
+  padding: 20px 20px 0;
+}
+
+.site-header img {
+  height: 42px;
+  width: auto;
+}
+
+.faq-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 4px 20px;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 14px 0;
+}
+
+.faq-item p {
+  padding-bottom: 14px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.avis-note {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--clay);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.urgence-num {
+  font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  color: var(--clay-dark);
+}
