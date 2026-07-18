@@ -16,18 +16,18 @@
 // ============================================================
 
 export const logements = {
-    'spacieux-T4-Blagnac': {
-    nom: 'spacieux-t4-lumineux-parking-aeroport-meett',
-    adresse: '8 rue des marguerites, 31700, Blagnac',
-    description: 'Appartement T4',
-    arrivee: '17H00',
-    depart: '11H00',
+  'spacieux-t4-blagnac': {
+    nom: 'Spacieux T4 lumineux avec parking — proche aéroport / MEETT',
+    adresse: '8 rue des Marguerites, 31700 Blagnac',
+    description: 'Appartement T4 spacieux et lumineux, avec parking, idéalement situé à proximité de l\'aéroport de Toulouse-Blagnac et du parc des expositions MEETT.',
+    arrivee: '17h00',
+    depart: '11h00',
     lat: 43.6382,
     lng: 1.38162,
     photosAccueil: [],
     reglesMaison: [
       'Non fumeur',
-      'calme de 22h00 à 7H00',
+      'Calme de 22h00 à 7h00',
     ],
     poubelles: '',
     recommandations: [],
@@ -42,11 +42,12 @@ export const logements = {
       'Avant de partir, merci également de :',
       '• éteindre les lumières et les ventilateurs,',
       '• fermer les fenêtres,',
-      '• vérifier que vous n’oubliez aucun effet personnel.',
+      '• vérifier que vous n\u2019oubliez aucun effet personnel.',
     ],
     boutique: [
-      { nom: 'arrivée anticipée 5 euros/heure', description: '', prix: '' },
-      { nom: 'idem pour départ', description: '', prix: '' },
+      { nom: 'Arrivée anticipée', description: 'Sous réserve de disponibilité', prix: '5€/heure' },
+      { nom: 'Départ tardif', description: 'Sous réserve de disponibilité', prix: '5€/heure' },
     ],
     contactUrgence: '0783466296',
   },
+};
