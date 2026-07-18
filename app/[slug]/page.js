@@ -95,8 +95,7 @@ export default function LogementPage({ params }) {
           ))}
         </>
       )}
-
-      {logement.photosVille && logement.photosVille.length > 0 && (
+{logement.photosVille && logement.photosVille.length > 0 && (
         <>
           <h2>La ville et ses environs</h2>
           <div className="photos">
@@ -110,4 +109,76 @@ export default function LogementPage({ params }) {
       {logement.boutique && logement.boutique.length > 0 && (
         <>
           <h2>Notre boutique</h2>
-          {logement.boutique.map((p) =>
+          {logement.boutique.map((p) => (
+            <div className="card" key={p.nom}>
+              <div className="label">
+                {p.nom}
+                {p.prix && <> — {p.prix}</>}
+              </div>
+              <p>{p.description}</p>
+            </div>
+          ))}
+        </>
+      )}
+
+      {logement.checkout && logement.checkout.length > 0 && (
+        <>
+          <h2>Check-out</h2>
+          <div className="card">
+            <ul>
+              {logement.checkout.map((etape) => (
+                <li key={etape}>{etape}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+
+      <h2>Urgences</h2>
+      <div className="card">
+        <p>
+          <span className="urgence-num">17</span> — Police / Gendarmerie
+          <br />
+          <span className="urgence-num">18</span> — Pompiers
+          <br />
+          <span className="urgence-num">15</span> — SAMU (urgences médicales)
+          <br />
+          <span className="urgence-num">112</span> — Numéro d&apos;urgence européen
+          <br />
+          <span className="urgence-num">3966</span> — Médecin de garde (nuit et week-end)
+        </p>
+        {logement.urgencesInfo && <p>{logement.urgencesInfo}</p>}
+      </div>
+
+      {logement.avis && logement.avis.length > 0 && (
+        <>
+          <h2>Avis</h2>
+          {logement.avis.map((a) => (
+            <div className="card" key={a.nom}>
+              <div className="avis-note">{'★'.repeat(a.note)} — {a.nom}</div>
+              <p>{a.commentaire}</p>
+            </div>
+          ))}
+        </>
+      )}
+
+      {logement.faq && logement.faq.length > 0 && (
+        <>
+          <h2>Questions fréquentes</h2>
+          {logement.faq.map((f) => (
+            <details className="faq-item" key={f.question}>
+              <summary>{f.question}</summary>
+              <p>{f.reponse}</p>
+            </details>
+          ))}
+        </>
+      )}
+
+      <p className="footer-note">
+        {logement.contactUrgence && (
+          <>Une question ? Contactez-nous au {logement.contactUrgence}.</>
+        )}
+      </p>
+    </main>
+  );
+}
