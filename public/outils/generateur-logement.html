@@ -48,7 +48,7 @@
   <header>
     <div class="eyebrow">Philia Conciergerie · Générateur</div>
     <h1>Ajouter un nouveau logement</h1>
-    <p class="sub">Remplissez ce formulaire, puis copiez les deux blocs générés en bas : le premier dans <code>data/logements.js</code> sur GitHub (public), le second dans le coffre-fort KV de Cloudflare (protégé par code, jamais sur GitHub).</p>
+    <p class="sub">Remplissez ce formulaire, puis cliquez sur "Publier en ligne" en bas — tout se met à jour automatiquement sur le site.</p>
   </header>
 
   <div class="field full">
@@ -103,6 +103,15 @@
         <label>Notre boutique <span class="hint">(une par ligne : Nom — description — prix, laissez vide si pas prêt)</span></label>
         <div class="list-block"><textarea id="boutique" placeholder="Petit-déjeuner livré — croissants et jus frais — 15€"></textarea></div>
       </div>
+      <div class="field"><label>Info urgence locale <span class="hint">(optionnel — hôpital le plus proche, etc.)</span></label><textarea id="urgencesInfo" placeholder="Hôpital le plus proche : ..."></textarea></div>
+      <div class="field">
+        <label>Avis voyageurs <span class="hint">(une par ligne : Nom — note sur 5 — commentaire)</span></label>
+        <div class="list-block"><textarea id="avis" placeholder="Camille — 5 — Séjour parfait, très bien situé"></textarea></div>
+      </div>
+      <div class="field">
+        <label>FAQ <span class="hint">(une par ligne : Question — Réponse)</span></label>
+        <div class="list-block"><textarea id="faq" placeholder="Puis-je fumer ? — Non, le logement est non-fumeur"></textarea></div>
+      </div>
     </div>
   </div>
 
@@ -139,9 +148,21 @@
     </div>
   </div>
 
-  <div class="output-panel">
+  <div class="part-title">3. Publier</div>
+  <div class="part-sub">Publie directement le logement sur le site — aucune manipulation sur GitHub nécessaire.</div>
+
+  <div class="field">
+    <label>Mot de passe administrateur</label>
+    <input type="password" id="motDePasseAdmin" placeholder="Mot de passe de publication">
+  </div>
+
+  <button type="button" id="publier" style="font-family:-apple-system,sans-serif;font-weight:600;background:var(--clay);color:#fff;border:none;padding:12px 22px;border-radius:6px;cursor:pointer;font-size:14px;">Publier en ligne</button>
+
+  <div id="resultatPublication" style="margin-top:16px;"></div>
+
+  <div class="output-panel" style="margin-top:36px;">
     <div class="output-header">
-      <h2>Bloc à coller dans data/logements.js (public)</h2>
+      <h2>Sauvegarde manuelle — data/logements.json (public)</h2>
       <button class="copy" id="copyData">Copier</button>
     </div>
     <pre id="outData"></pre>
@@ -149,29 +170,25 @@
 
   <div class="output-panel">
     <div class="output-header">
-      <h2>Entrée à créer dans le coffre-fort KV (protégée)</h2>
+      <h2>Sauvegarde manuelle — coffre-fort KV (protégée)</h2>
       <button class="copy" id="copyKV">Copier la valeur</button>
     </div>
     <div class="kv-key">Key : <strong id="kvKeyDisplay">—</strong></div>
     <pre id="outKV"></pre>
   </div>
 
-  <p class="note">Renommez vos fichiers photo exactement comme indiqué sous chaque champ avant de les déposer dans public/logements/&lt;identifiant&gt;/. Les photos protégées (accès, équipements) vont dans le même dossier public/logements/&lt;identifiant&gt;/ — elles ne sont simplement jamais listées ni liées nulle part publiquement, seul le coffre-fort KV connaît leur chemin, révélé uniquement après le bon code.</p>
+  <p class="note">Le bouton "Publier en ligne" fait tout automatiquement. Les blocs ci-dessus ne sont qu'une sauvegarde de secours, à coller manuellement seulement si la publication automatique échoue.</p>
 </div>
 
 <script>
   const ids = ['slug','nom','adresse','description','arrivee','depart','contactUrgence','poubelles',
-    'photosAccueil','regles','recommandations','photosVille','checkout','boutique',
-    'codeVerif','wifiNom','wifiMdp','accesDescription','accesPhotos','equipements'];
+    'photosAccueil','regles','recommandations','photosVille','checkout','boutique','urgencesInfo','avis','faq',
+    'codeVerif','wifiNom','wifiMdp','accesDescription','accesPhotos','equipements','motDePasseAdmin'];
   const el = {};
   ids.forEach(id => el[id] = document.getElementById(id));
 
   function lines(id) {
     return el[id].value.split('\n').map(s => s.trim()).filter(Boolean);
-  }
-
-  function jsStr(s) {
-    return "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
   }
 
   function pairLines(id) {
@@ -207,9 +224,9 @@
 
   let currentLat = null;
   let currentLng = null;
-  
-document.getElementById('genCode').addEventListener('click', () => {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sans caractères ambigus (0/O, 1/I)
+
+  document.getElementById('genCode').addEventListener('click', () => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let code = '';
     for (let i = 0; i < 6; i++) {
       code += chars[Math.floor(Math.random() * chars.length)];
@@ -217,6 +234,7 @@ document.getElementById('genCode').addEventListener('click', () => {
     el.codeVerif.value = code;
     generate();
   });
+
   document.getElementById('geocoder').addEventListener('click', async () => {
     const btn = document.getElementById('geocoder');
     const adresse = el.adresse.value.trim();
@@ -245,6 +263,10 @@ document.getElementById('genCode').addEventListener('click', () => {
     generate();
   });
 
+  let lastPublicObj = null;
+  let lastSecretObj = null;
+  let lastSlug = '';
+
   function generate() {
     const slug = el.slug.value.trim() || 'identifiant-logement';
     const nomSlug = slugify(el.nom.value) || slug;
@@ -257,6 +279,8 @@ document.getElementById('genCode').addEventListener('click', () => {
     const reco = pairLines('recommandations');
     const checkout = lines('checkout');
     const boutique = tripleLines('boutique').map(b => ({ nom: b.nom, description: b.description, prix: b.extra }));
+    const avis = tripleLines('avis').map(a => ({ nom: a.nom, note: parseInt(a.description, 10) || 5, commentaire: a.extra }));
+    const faq = pairLines('faq').map(f => ({ question: f.nom, reponse: f.description }));
     const equipementsRaw = tripleLines('equipements');
     const equipementsHintFiles = equipementsRaw
       .filter(e => e.extra)
@@ -270,38 +294,93 @@ document.getElementById('genCode').addEventListener('click', () => {
       photo: e.extra ? `/logements/${slug}/${slugify(e.extra)}-${nomSlug}.jpg` : '',
     }));
 
-    // ---- Bloc public (data/logements.js) ----
-    let data = `  ${jsStr(slug)}: {\n`;
-    data += `    nom: ${jsStr(el.nom.value)},\n`;
-    data += `    adresse: ${jsStr(el.adresse.value)},\n`;
-    data += `    description: ${jsStr(el.description.value)},\n`;
-    data += `    arrivee: ${jsStr(el.arrivee.value)},\n`;
-    data += `    depart: ${jsStr(el.depart.value)},\n`;
-    data += `    lat: ${currentLat !== null ? currentLat : 'null'},\n`;
-    data += `    lng: ${currentLng !== null ? currentLng : 'null'},\n`;
-    data += `    photosAccueil: [${photosAccueil.map(p => '\n      ' + jsStr(p)).join(',')}${photosAccueil.length ? ',\n    ' : ''}],\n`;
-    data += `    reglesMaison: [${regles.map(r => '\n      ' + jsStr(r)).join(',')}${regles.length ? ',\n    ' : ''}],\n`;
-    data += `    poubelles: ${jsStr(el.poubelles.value)},\n`;
-    data += `    recommandations: [${reco.map(r => `\n      { nom: ${jsStr(r.nom)}, description: ${jsStr(r.description)} }`).join(',')}${reco.length ? ',\n    ' : ''}],\n`;
-    data += `    photosVille: [${photosVille.map(p => '\n      ' + jsStr(p)).join(',')}${photosVille.length ? ',\n    ' : ''}],\n`;
-    data += `    checkout: [${checkout.map(c => '\n      ' + jsStr(c)).join(',')}${checkout.length ? ',\n    ' : ''}],\n`;
-    data += `    boutique: [${boutique.map(b => `\n      { nom: ${jsStr(b.nom)}, description: ${jsStr(b.description)}, prix: ${jsStr(b.prix)} }`).join(',')}${boutique.length ? ',\n    ' : ''}],\n`;
-    data += `    contactUrgence: ${jsStr(el.contactUrgence.value)},\n`;
-    data += `  },`;
-    document.getElementById('outData').textContent = data;
+    const publicObj = {
+      nom: el.nom.value.trim(),
+      adresse: el.adresse.value.trim(),
+      description: el.description.value.trim(),
+      arrivee: el.arrivee.value.trim(),
+      depart: el.depart.value.trim(),
+      lat: currentLat,
+      lng: currentLng,
+      photosAccueil,
+      reglesMaison: regles,
+      poubelles: el.poubelles.value.trim(),
+      recommandations: reco,
+      photosVille,
+      checkout,
+      boutique,
+      contactUrgence: el.contactUrgence.value.trim(),
+      urgencesInfo: el.urgencesInfo.value.trim(),
+      avis,
+      faq,
+    };
 
-    // ---- Bloc protégé (KV) ----
-    const kv = {
+    const secretObj = {
       code: el.codeVerif.value.trim(),
       wifiNom: el.wifiNom.value.trim(),
       wifiMotDePasse: el.wifiMdp.value.trim(),
       accesDescription: el.accesDescription.value.trim(),
-      accesPhotos: accesPhotos,
-      equipements: equipements,
+      accesPhotos,
+      equipements,
     };
-    document.getElementById('outKV').textContent = JSON.stringify(kv);
+
+    lastPublicObj = publicObj;
+    lastSecretObj = secretObj;
+    lastSlug = slug;
+
+    document.getElementById('outData').textContent = `"${slug}": ${JSON.stringify(publicObj, null, 2)}`;
+    document.getElementById('outKV').textContent = JSON.stringify(secretObj);
     document.getElementById('kvKeyDisplay').textContent = slug;
   }
+
+  document.getElementById('publier').addEventListener('click', async () => {
+    const btn = document.getElementById('publier');
+    const resultat = document.getElementById('resultatPublication');
+    if (!el.motDePasseAdmin.value.trim()) {
+      resultat.innerHTML = '<div class="error-msg">Merci de renseigner le mot de passe administrateur.</div>';
+      return;
+    }
+    if (!lastSlug || lastSlug === 'identifiant-logement') {
+      resultat.innerHTML = '<div class="error-msg">Merci de renseigner un identifiant de logement.</div>';
+      return;
+    }
+    btn.textContent = 'Publication en cours...';
+    btn.disabled = true;
+    resultat.innerHTML = '';
+    try {
+      const res = await fetch('/api/admin/ajouter-logement', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          motDePasseAdmin: el.motDePasseAdmin.value.trim(),
+          slug: lastSlug,
+          public: lastPublicObj,
+          secret: lastSecretObj,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        resultat.innerHTML = '<div class="error-msg">' + (data.error || 'Échec de la publication.') + '</div>';
+      } else {
+        resultat.innerHTML =
+          '<div class="list-block" style="display:flex; gap:8px; align-items:center;">' +
+          '<input readonly value="' + data.url + '" style="flex:1;" id="lienPublie">' +
+          '<button type="button" class="copy" id="copierLien">Copier le lien</button>' +
+          '</div>' +
+          '<div class="list-hint">Le site se republie automatiquement, comptez 1 à 2 minutes avant que le lien soit actif.</div>';
+        document.getElementById('copierLien').addEventListener('click', () => {
+          navigator.clipboard.writeText(data.url);
+          const b = document.getElementById('copierLien');
+          b.textContent = 'Copié ✓';
+          setTimeout(() => { b.textContent = 'Copier le lien'; }, 1600);
+        });
+      }
+    } catch {
+      resultat.innerHTML = '<div class="error-msg">Erreur de connexion, réessayez.</div>';
+    }
+    btn.textContent = 'Publier en ligne';
+    btn.disabled = false;
+  });
 
   ids.forEach(id => el[id].addEventListener('input', generate));
 
