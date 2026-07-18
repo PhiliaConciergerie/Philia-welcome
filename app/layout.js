@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import './globals.css';
 
 export const metadata = {
@@ -6,6 +8,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const logoExists = fs.existsSync(path.join(process.cwd(), 'public', 'logo.png'));
+
   return (
     <html lang="fr">
       <head>
@@ -15,7 +19,16 @@ export default function RootLayout({ children }) {
         />
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       </head>
-      <body>{children}</body>
+      <body>
+        {logoExists && (
+          <header className="site-header">
+            <a href="/">
+              <img src="/logo.png" alt="Philia Conciergerie" />
+            </a>
+          </header>
+        )}
+        {children}
+      </body>
     </html>
   );
 }
