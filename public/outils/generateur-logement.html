@@ -19,7 +19,6 @@
   .part-title { font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 700; margin: 40px 0 4px; padding-top: 16px; border-top: 2px solid var(--line); }
   .part-sub { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
   .part-sub.protected { color: var(--clay-dark); }
-  .section-title { font-family: -apple-system, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--moss); font-weight: 700; margin: 26px 0 12px; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
   @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
   .field { margin-bottom: 14px; }
@@ -41,6 +40,7 @@
   pre#outData, pre#outKV { margin: 0; padding: 18px; white-space: pre-wrap; word-break: break-word; font-family: 'SF Mono', Consolas, monospace; font-size: 12.5px; line-height: 1.6; color: var(--ink); }
   .note { margin-top: 14px; font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--clay); padding-left: 12px; }
   .kv-key { font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); padding: 10px 18px 0; }
+  .error-msg { color: var(--clay-dark); font-family: -apple-system, sans-serif; font-size: 13px; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -48,11 +48,11 @@
   <header>
     <div class="eyebrow">Philia Conciergerie · Générateur</div>
     <h1>Ajouter un nouveau logement</h1>
-    <p class="sub">Remplissez ce formulaire, puis cliquez sur "Publier en ligne" en bas — tout se met à jour automatiquement sur le site.</p>
+    <p class="sub">Remplissez ce formulaire, puis cliquez sur "Publier en ligne" en bas.</p>
   </header>
 
   <div class="field full">
-    <label>Identifiant du logement <span class="hint">(sans espace ni accent — devient l'adresse du livret)</span></label>
+    <label>Identifiant du logement <span class="hint">(sans espace ni accent)</span></label>
     <input id="slug" placeholder="ex. capitole-2">
   </div>
 
@@ -69,54 +69,54 @@
           <button type="button" id="geocoder" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--clay-dark);">Localiser cette adresse sur la carte</button>
         </div>
       </div>
-      <div class="field"><label>Description</label><textarea id="description" placeholder="Une ou deux phrases de présentation"></textarea></div>
+      <div class="field"><label>Description</label><textarea id="description"></textarea></div>
       <div class="field"><label>Arrivée</label><input id="arrivee" placeholder="ex. à partir de 16h00"></div>
       <div class="field"><label>Départ</label><input id="depart" placeholder="ex. avant 11h00"></div>
       <div class="field"><label>Contact urgence</label><input id="contactUrgence" placeholder="06 00 00 00 00"></div>
-      <div class="field"><label>Poubelles et tri</label><textarea id="poubelles" placeholder="Emplacement, jours de collecte, consignes de tri"></textarea></div>
+      <div class="field"><label>Poubelles et tri</label><textarea id="poubelles"></textarea></div>
     </div>
 
     <div>
       <div class="field">
         <label>Photos d'accueil <span class="hint">(un type par ligne)</span></label>
-        <div class="list-block"><textarea id="photosAccueil" placeholder="salon&#10;chambre double&#10;cuisine"></textarea></div>
+        <div class="list-block"><textarea id="photosAccueil" placeholder="salon&#10;chambre double"></textarea></div>
         <div class="list-hint" id="photosAccueilHint"></div>
       </div>
       <div class="field">
         <label>Règles de la maison <span class="hint">(une par ligne)</span></label>
-        <div class="list-block"><textarea id="regles" placeholder="Non-fumeur&#10;Calme après 22h"></textarea></div>
+        <div class="list-block"><textarea id="regles" placeholder="Non-fumeur"></textarea></div>
       </div>
       <div class="field">
-        <label>Recommandations <span class="hint">(une par ligne : Nom — description)</span></label>
-        <div class="list-block"><textarea id="recommandations" placeholder="Boulangerie du coin — croissants frais, 3 min à pied"></textarea></div>
+        <label>Recommandations <span class="hint">(Nom — description)</span></label>
+        <div class="list-block"><textarea id="recommandations"></textarea></div>
       </div>
       <div class="field">
         <label>Photos de la ville <span class="hint">(un type par ligne)</span></label>
-        <div class="list-block"><textarea id="photosVille" placeholder="place du capitole&#10;canal du midi"></textarea></div>
+        <div class="list-block"><textarea id="photosVille"></textarea></div>
         <div class="list-hint" id="photosVilleHint"></div>
       </div>
       <div class="field">
         <label>Check-out <span class="hint">(une étape par ligne)</span></label>
-        <div class="list-block"><textarea id="checkout" placeholder="Déposer les clés dans la boîte&#10;Sortir les poubelles"></textarea></div>
+        <div class="list-block"><textarea id="checkout"></textarea></div>
       </div>
       <div class="field">
-        <label>Notre boutique <span class="hint">(une par ligne : Nom — description — prix, laissez vide si pas prêt)</span></label>
-        <div class="list-block"><textarea id="boutique" placeholder="Petit-déjeuner livré — croissants et jus frais — 15€"></textarea></div>
+        <label>Notre boutique <span class="hint">(Nom — description — prix)</span></label>
+        <div class="list-block"><textarea id="boutique"></textarea></div>
       </div>
-      <div class="field"><label>Info urgence locale <span class="hint">(optionnel — hôpital le plus proche, etc.)</span></label><textarea id="urgencesInfo" placeholder="Hôpital le plus proche : ..."></textarea></div>
+      <div class="field"><label>Info urgence locale</label><textarea id="urgencesInfo"></textarea></div>
       <div class="field">
-        <label>Avis voyageurs <span class="hint">(une par ligne : Nom — note sur 5 — commentaire)</span></label>
-        <div class="list-block"><textarea id="avis" placeholder="Camille — 5 — Séjour parfait, très bien situé"></textarea></div>
+        <label>Avis voyageurs <span class="hint">(Nom — note sur 5 — commentaire)</span></label>
+        <div class="list-block"><textarea id="avis"></textarea></div>
       </div>
       <div class="field">
-        <label>FAQ <span class="hint">(une par ligne : Question — Réponse)</span></label>
-        <div class="list-block"><textarea id="faq" placeholder="Puis-je fumer ? — Non, le logement est non-fumeur"></textarea></div>
+        <label>FAQ <span class="hint">(Question — Réponse)</span></label>
+        <div class="list-block"><textarea id="faq"></textarea></div>
       </div>
     </div>
   </div>
 
   <div class="part-title">2. Contenu protégé par code</div>
-  <div class="part-sub protected">Affiché uniquement après saisie du bon code par le voyageur (équipements, accès, wifi).</div>
+  <div class="part-sub protected">Affiché uniquement après saisie du bon code.</div>
 
   <div class="grid">
     <div>
@@ -127,33 +127,33 @@
           <button type="button" id="genCode" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:0 10px;cursor:pointer;color:var(--clay-dark);white-space:nowrap;">Générer</button>
         </div>
       </div>
-      <div class="field"><label>Nom du réseau wifi</label><input id="wifiNom" placeholder="ex. Logement_Capitole"></div>
-      <div class="field"><label>Mot de passe wifi</label><input id="wifiMdp" placeholder="ex. bienvenue2026"></div>
+      <div class="field"><label>Nom du réseau wifi</label><input id="wifiNom"></div>
+      <div class="field"><label>Mot de passe wifi</label><input id="wifiMdp"></div>
       <div class="field">
         <label>Instructions d'accès</label>
-        <textarea id="accesDescription" placeholder="Sonnez à l'interphone, 2e porte à gauche. Boîte à clés sous l'escalier, code 4821."></textarea>
+        <textarea id="accesDescription"></textarea>
       </div>
       <div class="field">
-        <label>Photos d'accès <span class="hint">(un type par ligne — inclure la boîte à clés ici)</span></label>
-        <div class="list-block"><textarea id="accesPhotos" placeholder="facade&#10;interphone&#10;boite a cles"></textarea></div>
+        <label>Photos d'accès <span class="hint">(inclure la boîte à clés)</span></label>
+        <div class="list-block"><textarea id="accesPhotos"></textarea></div>
         <div class="list-hint" id="accesPhotosHint"></div>
       </div>
     </div>
     <div>
       <div class="field">
-        <label>Équipements <span class="hint">(un par ligne : Nom — description — type de photo optionnel)</span></label>
-        <div class="list-block"><textarea id="equipements" placeholder="Cafetière Nespresso — capsules dans le tiroir — cafetiere&#10;Lave-linge — sous l'évier"></textarea></div>
+        <label>Équipements <span class="hint">(Nom — description — photo optionnelle)</span></label>
+        <div class="list-block"><textarea id="equipements"></textarea></div>
         <div class="list-hint" id="equipementsHint"></div>
       </div>
     </div>
   </div>
 
   <div class="part-title">3. Publier</div>
-  <div class="part-sub">Publie directement le logement sur le site — aucune manipulation sur GitHub nécessaire.</div>
+  <div class="part-sub">Publie directement le logement sur le site.</div>
 
   <div class="field">
     <label>Mot de passe administrateur</label>
-    <input type="password" id="motDePasseAdmin" placeholder="Mot de passe de publication">
+    <input type="password" id="motDePasseAdmin">
   </div>
 
   <button type="button" id="publier" style="font-family:-apple-system,sans-serif;font-weight:600;background:var(--clay);color:#fff;border:none;padding:12px 22px;border-radius:6px;cursor:pointer;font-size:14px;">Publier en ligne</button>
@@ -162,7 +162,7 @@
 
   <div class="output-panel" style="margin-top:36px;">
     <div class="output-header">
-      <h2>Sauvegarde manuelle — data/logements.json (public)</h2>
+      <h2>Sauvegarde manuelle — data/logements.json</h2>
       <button class="copy" id="copyData">Copier</button>
     </div>
     <pre id="outData"></pre>
@@ -170,16 +170,15 @@
 
   <div class="output-panel">
     <div class="output-header">
-      <h2>Sauvegarde manuelle — coffre-fort KV (protégée)</h2>
+      <h2>Sauvegarde manuelle — coffre-fort KV</h2>
       <button class="copy" id="copyKV">Copier la valeur</button>
     </div>
     <div class="kv-key">Key : <strong id="kvKeyDisplay">—</strong></div>
     <pre id="outKV"></pre>
   </div>
 
-  <p class="note">Le bouton "Publier en ligne" fait tout automatiquement. Les blocs ci-dessus ne sont qu'une sauvegarde de secours, à coller manuellement seulement si la publication automatique échoue.</p>
+  <p class="note">Le bouton "Publier en ligne" fait tout automatiquement.</p>
 </div>
-
 <script>
   const ids = ['slug','nom','adresse','description','arrivee','depart','contactUrgence','poubelles',
     'photosAccueil','regles','recommandations','photosVille','checkout','boutique','urgencesInfo','avis','faq',
@@ -187,38 +186,26 @@
   const el = {};
   ids.forEach(id => el[id] = document.getElementById(id));
 
-  function lines(id) {
-    return el[id].value.split('\n').map(s => s.trim()).filter(Boolean);
-  }
-
+  function lines(id) { return el[id].value.split('\n').map(s => s.trim()).filter(Boolean); }
   function pairLines(id) {
     return lines(id).map(line => {
       const [nom, ...rest] = line.split('—');
       return { nom: (nom || '').trim(), description: rest.join('—').trim() };
     });
   }
-
   function tripleLines(id) {
     return lines(id).map(line => {
       const parts = line.split('—').map(p => p.trim());
       return { nom: parts[0] || '', description: parts[1] || '', extra: parts[2] || '' };
     });
   }
-
   function slugify(str) {
-    return String(str)
-      .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-+|-+$)/g, '');
+    return String(str).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '');
   }
-
   function photoList(fieldId, hintId, slug, nomSlug) {
     const types = lines(fieldId);
     const files = types.map(t => `${slugify(t)}-${nomSlug}.jpg`);
-    document.getElementById(hintId).textContent = files.length
-      ? 'Renommez vos fichiers ainsi : ' + files.join(', ')
-      : '';
+    document.getElementById(hintId).textContent = files.length ? 'Renommez vos fichiers ainsi : ' + files.join(', ') : '';
     return files.map(f => `/logements/${slug}/${f}`);
   }
 
@@ -228,9 +215,7 @@
   document.getElementById('genCode').addEventListener('click', () => {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let code = '';
-    for (let i = 0; i < 6; i++) {
-      code += chars[Math.floor(Math.random() * chars.length)];
-    }
+    for (let i = 0; i < 6; i++) { code += chars[Math.floor(Math.random() * chars.length)]; }
     el.codeVerif.value = code;
     generate();
   });
@@ -238,15 +223,10 @@
   document.getElementById('geocoder').addEventListener('click', async () => {
     const btn = document.getElementById('geocoder');
     const adresse = el.adresse.value.trim();
-    if (!adresse) {
-      alert('Renseignez d\'abord une adresse.');
-      return;
-    }
+    if (!adresse) { alert('Renseignez d\'abord une adresse.'); return; }
     btn.textContent = 'Recherche...';
     try {
-      const res = await fetch(
-        'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(adresse)
-      );
+      const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(adresse));
       const results = await res.json();
       if (results && results.length > 0) {
         currentLat = parseFloat(results[0].lat);
@@ -254,27 +234,20 @@
         btn.textContent = 'Adresse localisée ✓ (' + currentLat.toFixed(4) + ', ' + currentLng.toFixed(4) + ')';
       } else {
         btn.textContent = 'Adresse introuvable, réessayez';
-        currentLat = null;
-        currentLng = null;
+        currentLat = null; currentLng = null;
       }
-    } catch {
-      btn.textContent = 'Erreur, réessayez';
-    }
+    } catch { btn.textContent = 'Erreur, réessayez'; }
     generate();
   });
 
-  let lastPublicObj = null;
-  let lastSecretObj = null;
-  let lastSlug = '';
+  let lastPublicObj = null, lastSecretObj = null, lastSlug = '';
 
   function generate() {
     const slug = el.slug.value.trim() || 'identifiant-logement';
     const nomSlug = slugify(el.nom.value) || slug;
-
     const photosAccueil = photoList('photosAccueil', 'photosAccueilHint', slug, nomSlug);
     const photosVille = photoList('photosVille', 'photosVilleHint', slug, nomSlug);
     const accesPhotos = photoList('accesPhotos', 'accesPhotosHint', slug, nomSlug);
-
     const regles = lines('regles');
     const reco = pairLines('recommandations');
     const checkout = lines('checkout');
@@ -282,52 +255,22 @@
     const avis = tripleLines('avis').map(a => ({ nom: a.nom, note: parseInt(a.description, 10) || 5, commentaire: a.extra }));
     const faq = pairLines('faq').map(f => ({ question: f.nom, reponse: f.description }));
     const equipementsRaw = tripleLines('equipements');
-    const equipementsHintFiles = equipementsRaw
-      .filter(e => e.extra)
-      .map(e => `${slugify(e.extra)}-${nomSlug}.jpg`);
-    document.getElementById('equipementsHint').textContent = equipementsHintFiles.length
-      ? 'Renommez les photos d\'équipement ainsi : ' + equipementsHintFiles.join(', ')
-      : '';
-    const equipements = equipementsRaw.map(e => ({
-      nom: e.nom,
-      description: e.description,
-      photo: e.extra ? `/logements/${slug}/${slugify(e.extra)}-${nomSlug}.jpg` : '',
-    }));
+    const equipementsHintFiles = equipementsRaw.filter(e => e.extra).map(e => `${slugify(e.extra)}-${nomSlug}.jpg`);
+    document.getElementById('equipementsHint').textContent = equipementsHintFiles.length ? 'Renommez les photos ainsi : ' + equipementsHintFiles.join(', ') : '';
+    const equipements = equipementsRaw.map(e => ({ nom: e.nom, description: e.description, photo: e.extra ? `/logements/${slug}/${slugify(e.extra)}-${nomSlug}.jpg` : '' }));
 
     const publicObj = {
-      nom: el.nom.value.trim(),
-      adresse: el.adresse.value.trim(),
-      description: el.description.value.trim(),
-      arrivee: el.arrivee.value.trim(),
-      depart: el.depart.value.trim(),
-      lat: currentLat,
-      lng: currentLng,
-      photosAccueil,
-      reglesMaison: regles,
-      poubelles: el.poubelles.value.trim(),
-      recommandations: reco,
-      photosVille,
-      checkout,
-      boutique,
-      contactUrgence: el.contactUrgence.value.trim(),
-      urgencesInfo: el.urgencesInfo.value.trim(),
-      avis,
-      faq,
+      nom: el.nom.value.trim(), adresse: el.adresse.value.trim(), description: el.description.value.trim(),
+      arrivee: el.arrivee.value.trim(), depart: el.depart.value.trim(), lat: currentLat, lng: currentLng,
+      photosAccueil, reglesMaison: regles, poubelles: el.poubelles.value.trim(), recommandations: reco,
+      photosVille, checkout, boutique, contactUrgence: el.contactUrgence.value.trim(),
+      urgencesInfo: el.urgencesInfo.value.trim(), avis, faq,
     };
-
     const secretObj = {
-      code: el.codeVerif.value.trim(),
-      wifiNom: el.wifiNom.value.trim(),
-      wifiMotDePasse: el.wifiMdp.value.trim(),
-      accesDescription: el.accesDescription.value.trim(),
-      accesPhotos,
-      equipements,
+      code: el.codeVerif.value.trim(), wifiNom: el.wifiNom.value.trim(), wifiMotDePasse: el.wifiMdp.value.trim(),
+      accesDescription: el.accesDescription.value.trim(), accesPhotos, equipements,
     };
-
-    lastPublicObj = publicObj;
-    lastSecretObj = secretObj;
-    lastSlug = slug;
-
+    lastPublicObj = publicObj; lastSecretObj = secretObj; lastSlug = slug;
     document.getElementById('outData').textContent = `"${slug}": ${JSON.stringify(publicObj, null, 2)}`;
     document.getElementById('outKV').textContent = JSON.stringify(secretObj);
     document.getElementById('kvKeyDisplay').textContent = slug;
@@ -336,38 +279,19 @@
   document.getElementById('publier').addEventListener('click', async () => {
     const btn = document.getElementById('publier');
     const resultat = document.getElementById('resultatPublication');
-    if (!el.motDePasseAdmin.value.trim()) {
-      resultat.innerHTML = '<div class="error-msg">Merci de renseigner le mot de passe administrateur.</div>';
-      return;
-    }
-    if (!lastSlug || lastSlug === 'identifiant-logement') {
-      resultat.innerHTML = '<div class="error-msg">Merci de renseigner un identifiant de logement.</div>';
-      return;
-    }
-    btn.textContent = 'Publication en cours...';
-    btn.disabled = true;
-    resultat.innerHTML = '';
+    if (!el.motDePasseAdmin.value.trim()) { resultat.innerHTML = '<div class="error-msg">Merci de renseigner le mot de passe administrateur.</div>'; return; }
+    if (!lastSlug || lastSlug === 'identifiant-logement') { resultat.innerHTML = '<div class="error-msg">Merci de renseigner un identifiant.</div>'; return; }
+    btn.textContent = 'Publication en cours...'; btn.disabled = true; resultat.innerHTML = '';
     try {
       const res = await fetch('/api/admin/ajouter-logement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          motDePasseAdmin: el.motDePasseAdmin.value.trim(),
-          slug: lastSlug,
-          public: lastPublicObj,
-          secret: lastSecretObj,
-        }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ motDePasseAdmin: el.motDePasseAdmin.value.trim(), slug: lastSlug, public: lastPublicObj, secret: lastSecretObj }),
       });
       const data = await res.json();
       if (!res.ok) {
         resultat.innerHTML = '<div class="error-msg">' + (data.error || 'Échec de la publication.') + '</div>';
       } else {
-        resultat.innerHTML =
-          '<div class="list-block" style="display:flex; gap:8px; align-items:center;">' +
-          '<input readonly value="' + data.url + '" style="flex:1;" id="lienPublie">' +
-          '<button type="button" class="copy" id="copierLien">Copier le lien</button>' +
-          '</div>' +
-          '<div class="list-hint">Le site se republie automatiquement, comptez 1 à 2 minutes avant que le lien soit actif.</div>';
+        resultat.innerHTML = '<div class="list-block" style="display:flex; gap:8px; align-items:center;"><input readonly value="' + data.url + '" style="flex:1;" id="lienPublie"><button type="button" class="copy" id="copierLien">Copier le lien</button></div><div class="list-hint">Comptez 1 à 2 minutes avant que le lien soit actif.</div>';
         document.getElementById('copierLien').addEventListener('click', () => {
           navigator.clipboard.writeText(data.url);
           const b = document.getElementById('copierLien');
@@ -375,29 +299,23 @@
           setTimeout(() => { b.textContent = 'Copier le lien'; }, 1600);
         });
       }
-    } catch {
-      resultat.innerHTML = '<div class="error-msg">Erreur de connexion, réessayez.</div>';
-    }
-    btn.textContent = 'Publier en ligne';
-    btn.disabled = false;
+    } catch { resultat.innerHTML = '<div class="error-msg">Erreur de connexion, réessayez.</div>'; }
+    btn.textContent = 'Publier en ligne'; btn.disabled = false;
   });
 
   ids.forEach(id => el[id].addEventListener('input', generate));
-
   function wireCopy(btnId, targetId) {
     document.getElementById(btnId).addEventListener('click', () => {
       const btn = document.getElementById(btnId);
       navigator.clipboard.writeText(document.getElementById(targetId).textContent).then(() => {
         const original = btn.textContent;
-        btn.textContent = 'Copié ✓';
-        btn.classList.add('copied');
+        btn.textContent = 'Copié ✓'; btn.classList.add('copied');
         setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
       });
     });
   }
   wireCopy('copyData', 'outData');
   wireCopy('copyKV', 'outKV');
-
   generate();
 </script>
 </body>
