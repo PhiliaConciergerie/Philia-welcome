@@ -111,7 +111,8 @@ async function handleAjouterLogement(request, env) {
       { headers: githubHeaders }
     );
     if (!getRes.ok) {
-      return jsonResponse({ error: 'Impossible de lire logements.json sur GitHub.' }, 502);
+      const errText = await getRes.text();
+      return jsonResponse({ error: `Impossible de lire logements.json (${getRes.status}) : ${errText}` }, 502);
     }
     const getData = await getRes.json();
     const currentContent = JSON.parse(b64DecodeUtf8(getData.content));
