@@ -28,12 +28,182 @@
       "• vérifier que vous n'oubliez aucun effet personnel."
     ],
     "boutique": [
-      { "nom": "Arrivée anticipée", "description": "Sous réserve de disponibilité", "prix": "5€/heure" },
-      { "nom": "Départ tardif", "description": "Sous réserve de disponibilité", "prix": "5€/heure" }
+      {
+        "nom": "Arrivée anticipée",
+        "description": "Sous réserve de disponibilité",
+        "prix": "5€/heure"
+      },
+      {
+        "nom": "Départ tardif",
+        "description": "Sous réserve de disponibilité",
+        "prix": "5€/heure"
+      }
     ],
     "contactUrgence": "0783466296",
     "urgencesInfo": "",
     "avis": [],
     "faq": []
+  },
+  "cocon-aqueduc": {
+    "nom": "Le Cocon de l'Aqueduc",
+    "adresse": "33 rue de l'aqueduc, 31500, Toulouse",
+    "description": "Bienvenue dans **Le Cocon de l'Aqueduc**, un appartement climatisé de **45 m²** situé au **2ᵉ et dernier étage** d'un immeuble de caractère, au **33 rue de l'Aqueduc, 31500 Toulouse**.\n\nPensé pour offrir un séjour confortable, ce logement séduit par son ambiance chaleureuse, sa belle luminosité grâce à **cinq fenêtres** et **deux velux**, ainsi que son **coin nuit en mezzanine mansardée**, idéal pour profiter d'un espace cosy et intimiste.\n\nÀ seulement quelques minutes à pied de la **gare Toulouse Matabiau**, du métro et du centre-ville, l'appartement constitue un excellent point de départ pour découvrir Toulouse, que vous voyagiez pour le tourisme, un déplacement professionnel ou un week-end en couple.\n\nNous vous souhaitons un excellent séjour et espérons que vous vous sentirez ici comme chez vous.",
+    "arrivee": "à partir de 17h00",
+    "depart": "avant 11h00",
+    "lat": 43.6008764,
+    "lng": 1.4588682,
+    "photosAccueil": [
+      "/logements/cocon-aqueduc/salon-photo-de-couverture-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salon-complet-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salon-fenetres-et-velux-visibles-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salon-deux-fenetres-bibliotheque-canape-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salon-bibliotheque-briques-fenetres-visibles-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salon-cuisine-poutre-bar-canape-et-fauteuils-visibles-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/coin-de-nuit-lit-velux-lumineux-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/table-dressee-fenetres-chaises-cuisine-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/cuisine-vue-du-haut-complet-lumineuse-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/salle-de-bain-neuve-propre-et-lavabo-jpeg-le-cocon-de-l-aqueduc.jpg",
+      "/logements/cocon-aqueduc/coin-de-nuit-velux-ouvert-bain-de-soleil-jpeg-le-cocon-de-l-aqueduc.jpg"
+    ],
+    "reglesMaison": [
+      "Calme dans l'immeuble entre 22h00 et 8h00, fêtes et événements interdits",
+      "Comportement respectueux dans les parties communes",
+      "Logement non-fumeur (intérieur et vapotage) ; ne laissez aucun mégot au sol dehors",
+      "3 voyageurs maximum, uniquement les personnes déclarées lors de la réservation",
+      "Non recommandé aux jeunes enfants (mezzanine et fenêtres de toit)",
+      "Vérifiez que la porte d'entrée est bien verrouillée en quittant le logement",
+      "Éteignez lumières, climatisation et appareils électriques inutilisés en sortant",
+      "Climatisation : à éteindre en sortant, fenêtres fermées quand elle fonctionne",
+      "Merci de prendre soin du mobilier et de signaler toute panne ou casse",
+      "Animaux non autorisés, sauf accord écrit préalable"
+    ],
+    "poubelles": "Déchets ménagers\n\nLe local poubelles est situé au rez-de-chaussée, juste en face de la porte d'entrée de l'immeuble.\n\nEn quittant l'appartement, descendez l'escalier jusqu'au rez-de-chaussée. Le local se trouve immédiatement sur votre droite, à la fin de l'escalier. Il vous suffit d'ouvrir la porte et de déposer vos sacs dans le conteneur prévu à cet effet.\n\nVerre\n\nAfin de favoriser le recyclage, merci de déposer les bouteilles, bocaux et autres emballages en verre dans les conteneurs à verre installés à proximité de l'immeuble. Plusieurs points de collecte sont accessibles dans le quartier.\n\nNous vous remercions de contribuer au tri des déchets et au respect de l'environnement.",
+    "recommandations": [],
+    "photosVille": [],
+    "checkout": [
+      "Faire la vaisselle et ranger les ustensiles utilisés",
+      "Déposer les déchets dans le local poubelles",
+      "Laisser le logement dans un état de propreté raisonnable",
+      "Vérifier que vous n'oubliez aucun effet personnel"
+    ],
+    "boutique": [
+      {
+        "nom": "Services:",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Arrivée anticipée (à partir de 14h, selon disponibilité)  20 €",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Départ tardif (jusqu'à 13h, selon disponibilité)              20 €",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Linge:",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Grande serviette supplémentaire\t                                6 €",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Kit de draps supplémentaire (lit double)\t                      16 €",
+        "description": "",
+        "prix": ""
+      },
+      {
+        "nom": "Kit complet (draps + grandes serviettes)\t              20 €",
+        "description": "",
+        "prix": ""
+      }
+    ],
+    "contactUrgence": "+33666503765",
+    "urgencesInfo": "",
+    "avis": [
+      {
+        "nom": "Molly",
+        "note": 5,
+        "commentaire": "J'ai eu l'une de mes expériences Airbnb préférées dans l'appartement de Lucie J'y ai séjourné pendant 3 semaines et je ne voulais plus partir ! Il est incroyablement spacieux pour le prix, avec tout ce dont vous avez besoin pour passer un séjour confortable. La chambre dans le loft, avec le lit juste en dessous d'une immense lucarne, était ma partie préférée. Pouvoir observer le coucher du soleil depuis cette fenêtre était  tout simplement génial. L'emplacement de l'appartement est également parfait, avec un Lidl à 10 minutes à pied, un petit supermarché (pas idéal pour les fruits et légumes, mais beaucoup de produits réfrigérés et d'armoires) à 3 minutes à pied, un supermarché biologique à 10 minutes à pied et le merveilleux marché de St Aubin (le dimanche) également à 10 minutes à pied. Lucie elle-même a été incroyablement serviable et amicale chaque fois que j'avais des questions. Je ne saurais trop recommander cet appartement :-)"
+      },
+      {
+        "nom": "Elyse",
+        "note": 5,
+        "commentaire": "L'appartement de Lucie est absolument incroyable et je ne saurais trop vous le recommander ! J'ai séjourné un mois et demi pendant l'été et je me suis immédiatement senti comme à la maison. Il a tout ce dont vous avez besoin, y compris une belle cuisine complète, une douche incroyable, des lits confortables (il y a un lit ordinaire dans le loft et un futon dans le salon), un lave-linge et un séchoir, etc. Tout cela se trouve dans un espace ouvert magnifiquement décoré, ensoleillé (c'est tout aussi incroyable que les photos !) . Il se trouve à 15 à 20 minutes à pied du centre de toulouse et à 7 minutes à pied du métro le plus proche. Il y a aussi beaucoup de vélos à proximité. Lucie est une hôte incroyable, elle est arrivée sur moi et mon séjour et s'est assurée que tout était parfait. La meilleure expérience que j'ai eue sur airbnb de loin !"
+      },
+      {
+        "nom": "Giuseppe",
+        "note": 5,
+        "commentaire": "J'ai passé un peu plus d'un mois dans l'appartement de Lucie et j'ai passé un moment incroyable. Il est spacieux, lumineux, confortable, avec de la personnalité et a tous  les besoins pour un excellent séjour ... sans parler de la douche ! L'appartement est également assez grand pour un couple."
+      },
+      {
+        "nom": "Il est situé à distance de marche de la station de métro François Verdier et dispose de deux arrêts à proximité des lignes de bus fréquentes du centre et de la gare.",
+        "note": 5,
+        "commentaire": ""
+      },
+      {
+        "nom": "Il y a quelques bons pubs et restaurants à proximité (par exemple The Danu) et le parc du Jardin des Plantes est à 10 minutes à pied. Lucie a été une hôte brillante depuis le premier jour et a beaucoup contribué à faciliter le séjour ! Je recommande cet appartement ... et j'espère vraiment y retourner bientôt :)",
+        "note": 5,
+        "commentaire": ""
+      },
+      {
+        "nom": "Antoine",
+        "note": 5,
+        "commentaire": "Très bon appartement, assez bien placé (à côté de la place Dupuy), le séjour était agréable."
+      },
+      {
+        "nom": "Alice",
+        "note": 5,
+        "commentaire": "L'appartement de Lucie est décoré avec goût et très propre. Vous adorerez la douche (incroyable dans les logements classiques !!) et la cuisine dispose de tout ce dont vous avez besoin pour cuisiner des repas plus que délicieux. Les puits de lumière sont incroyables."
+      },
+      {
+        "nom": "Ce n'est pas dans le centre de la ville, mais on peut s'y rendre à pied. Le quartier est calme et je me suis senti en sécurité. Il y a de très bons bars, restaurants, boulangeries et établissements de vente à emporter à proximité. La gare Matabiau est située à seulement 15 minutes à pied (moins à vélo), ce qui est très pratique si vous prévoyez de vous installer à Toulouse et de voyager en France en train.",
+        "note": 5,
+        "commentaire": ""
+      },
+      {
+        "nom": "Lucie est sympathique et amusante. Elle est serviable et a fait preuve de flexibilité en ce qui concerne l'arrivée et le départ. Ce fut un excellent séjour, merci Lucie.",
+        "note": 5,
+        "commentaire": ""
+      },
+      {
+        "nom": "Alexis",
+        "note": 4,
+        "commentaire": "Bel appartement, fonctionnel (il manque uniquement un congélateur et un micro-monde)."
+      },
+      {
+        "nom": "Belle salle de bain, et la cabine de douche a une option hammam.",
+        "note": 5,
+        "commentaire": ""
+      },
+      {
+        "nom": "Lucie est impliquée et s'assure du bon déroulement du séjour.",
+        "note": 5,
+        "commentaire": ""
+      }
+    ],
+    "faq": [
+      {
+        "question": "Que se passe-t-il si j'oublie un objet ?",
+        "reponse": "Les objets retrouvés peuvent être réexpédiés à vos frais sur demande ; sans nouvelle de votre part, ils sont conservés pendant une durée limitée."
+      },
+      {
+        "question": "Puis-je venir avec mon animal ?",
+        "reponse": "Les animaux ne sont pas autorisés, sauf accord écrit préalable."
+      },
+      {
+        "question": "Puis-je fumer sur le balcon ou dehors ?",
+        "reponse": "Le logement est non-fumeur à l'intérieur ; à l'extérieur, merci de ne laisser aucun mégot au sol."
+      },
+      {
+        "question": "Le départ tardif est-il possible ?",
+        "reponse": "Oui, sous réserve de disponibilité, moyennant un supplément (voir la rubrique Boutique)."
+      }
+    ]
   }
 }
