@@ -204,7 +204,15 @@
   }
   function photoList(fieldId, hintId, slug, nomSlug) {
     const types = lines(fieldId);
-    const files = types.map(t => `${slugify(t)}-${nomSlug}.jpg`);
+    const files = types.map(t => {
+      const match = t.match(/\.(jpg|jpeg|png|webp)$/i);
+      if (match) {
+        const ext = match[1].toLowerCase();
+        const base = t.slice(0, -match[0].length);
+        return `${slugify(base)}-${nomSlug}.${ext}`;
+      }
+      return `${slugify(t)}-${nomSlug}.jpg`;
+    });
     document.getElementById(hintId).textContent = files.length ? 'Renommez vos fichiers ainsi : ' + files.join(', ') : '';
     return files.map(f => `/logements/${slug}/${f}`);
   }
