@@ -2,6 +2,7 @@ import { logements } from '../../data/logements';
 import { notFound } from 'next/navigation';
 import AccesSensible from './AccesSensible';
 import CartePlan from './CartePlan';
+import Carrousel from './Carrousel';
 
 export function generateStaticParams() {
   return Object.keys(logements).map((slug) => ({ slug }));
@@ -22,26 +23,26 @@ export default function LogementPage({ params }) {
     notFound();
   }
 
-  const lienMaps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(logement.adresse);
-
   return (
     <main className="wrap">
       <div className="eyebrow">Philia Conciergerie</div>
       <h1>{logement.nom}</h1>
       <p className="desc">{logement.description}</p>
 
-      {logement.photosAccueil && logement.photosAccueil.length > 0 && (
-        <div className="photos">
-          {logement.photosAccueil.map((src) => (
-            <img key={src} src={src} alt={logement.nom} />
-          ))}
-        </div>
-      )}
+      <Carrousel photos={logement.photosAccueil} nomLogement={logement.nom} />
 
       <h2>Informations pratiques</h2>
       <div className="card">
         <div className="label">Adresse</div>
-        <p><a href={lienMaps} target="_blank" rel="noopener noreferrer">{logement.adresse}</a></p>
+        <p>
+          
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(logement.adresse)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {logement.adresse}
+          </a>
+        </p>
       </div>
       <div className="card">
         <div className="label">Arrivée</div>
@@ -95,14 +96,11 @@ export default function LogementPage({ params }) {
           ))}
         </>
       )}
-{logement.photosVille && logement.photosVille.length > 0 && (
+
+      {logement.photosVille && logement.photosVille.length > 0 && (
         <>
           <h2>La ville et ses environs</h2>
-          <div className="photos">
-            {logement.photosVille.map((src) => (
-              <img key={src} src={src} alt="La ville et ses environs" />
-            ))}
-          </div>
+          <Carrousel photos={logement.photosVille} nomLogement={logement.nom} />
         </>
       )}
 
@@ -125,7 +123,7 @@ export default function LogementPage({ params }) {
         <>
           <h2>Check-out</h2>
           <div className="card">
-            <ul>
+            <ul className="checkout-list">
               {logement.checkout.map((etape) => (
                 <li key={etape}>{etape}</li>
               ))}
