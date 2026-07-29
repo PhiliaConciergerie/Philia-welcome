@@ -2,329 +2,1163 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Générateur de logement — Philia Conciergerie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Livret d’accueil — Philia Conciergerie</title>
 <style>
   :root {
-    --ink: #23261f; --paper: #f7f5ee; --panel: #ffffff; --line: #ded9c7;
-    --clay: #a8623f; --clay-dark: #8a4e32; --moss: #556b4f; --muted: #7a7666;
+    --ink: #1a1917;
+    --ink-soft: #3d3b37;
+    --paper: #f7f5f0;
+    --paper-2: #efece5;
+    --panel: #ffffff;
+    --line: #e5e1d6;
+    --line-strong: #d5d0c3;
+    --clay: #b56a42;
+    --clay-dark: #8f4f2e;
+    --clay-soft: rgba(181, 106, 66, 0.11);
+    --moss: #4a6b48;
+    --moss-soft: rgba(74, 107, 72, 0.12);
+    --muted: #7c786c;
+    --gold: #c4a35a;
+    --shadow: 0 4px 20px rgba(26, 25, 23, 0.06);
+    --shadow-lg: 0 16px 48px rgba(26, 25, 23, 0.11);
+    --radius: 18px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --serif: Georgia, 'Times New Roman', serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
-  header { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 28px; }
-  .eyebrow { font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; color: var(--clay); font-weight: 600; margin-bottom: 8px; }
-  h1 { font-size: 28px; margin: 0 0 6px; font-weight: 400; }
-  .sub { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 70ch; }
-  .part-title { font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 700; margin: 40px 0 4px; padding-top: 16px; border-top: 2px solid var(--line); }
-  .part-sub { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 13px; margin-bottom: 16px; }
-  .part-sub.protected { color: var(--clay-dark); }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
-  .field { margin-bottom: 14px; }
-  .field.full { grid-column: 1 / -1; }
-  label { display: block; font-family: -apple-system, sans-serif; font-size: 12.5px; font-weight: 600; margin-bottom: 5px; }
-  label .hint { font-weight: 400; color: var(--muted); }
-  input, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); font-family: -apple-system, sans-serif; font-size: 14px; color: var(--ink); }
-  input:focus, textarea:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px rgba(168,98,63,0.12); }
-  textarea { resize: vertical; min-height: 60px; }
-  .list-block { border: 1px solid var(--line); border-radius: 6px; padding: 12px; background: var(--panel); margin-bottom: 6px; }
-  .list-block textarea { min-height: 80px; }
-  .list-hint { font-family: -apple-system, sans-serif; font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .output-panel { margin-top: 30px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; }
-  .output-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--line); background: #fbfaf5; }
-  .output-header h2 { font-size: 14px; font-weight: 700; margin: 0; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.06em; color: var(--moss); }
-  button.copy { font-family: -apple-system, sans-serif; font-size: 12.5px; font-weight: 600; background: var(--clay); color: #fff; border: none; padding: 8px 14px; border-radius: 5px; cursor: pointer; }
-  button.copy:hover { background: var(--clay-dark); }
-  button.copy.copied { background: var(--moss); }
-  pre#outData, pre#outKV { margin: 0; padding: 18px; white-space: pre-wrap; word-break: break-word; font-family: 'SF Mono', Consolas, monospace; font-size: 12.5px; line-height: 1.6; color: var(--ink); }
-  .note { margin-top: 14px; font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); line-height: 1.6; border-left: 3px solid var(--clay); padding-left: 12px; }
-  .kv-key { font-family: -apple-system, sans-serif; font-size: 12.5px; color: var(--muted); padding: 10px 18px 0; }
-  .error-msg { color: var(--clay-dark); font-family: -apple-system, sans-serif; font-size: 13px; margin-top: 8px; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Top bar ─── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(247, 245, 240, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar-brand {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--clay);
+  }
+  .topbar-code {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .topbar-code .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--moss);
+  }
+  .topbar-code.locked .dot { background: var(--clay); }
+
+  /* ─── Layout ─── */
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px 100px;
+  }
+  @media (min-width: 720px) {
+    .wrap { padding: 0 24px 120px; }
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    position: relative;
+    margin: 16px 0 28px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    aspect-ratio: 4 / 5;
+    max-height: 520px;
+  }
+  @media (min-width: 600px) {
+    .hero { aspect-ratio: 16 / 11; max-height: 420px; }
+  }
+  .hero-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.55s var(--ease);
+  }
+  .hero-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #d9d4c6, #c2bbaa 60%, #a89f8e);
+    position: relative;
+  }
+  .hero-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,25,23,0.72) 0%, rgba(26,25,23,0.15) 45%, transparent 70%);
+  }
+  .hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 24px 24px;
+    color: #fff;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 7vw, 38px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .hero-addr {
+    font-size: 14.5px;
+    opacity: 0.9;
+  }
+  .hero-dots {
+    position: absolute;
+    bottom: 18px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+    z-index: 3;
+  }
+  .hero-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transition: all 0.3s var(--ease);
+  }
+  .hero-dot.active {
+    background: #fff;
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  /* ─── Quick info ─── */
+  .quick-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .quick-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .quick-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .quick-value {
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ─── Section ─── */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ─── Text card ─── */
+  .text-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .text-card p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* ─── Carousel ─── */
+  .carousel {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 4px 2px 14px;
+    margin: 0 -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel-item {
+    flex: 0 0 min(260px, 78vw);
+    scroll-snap-align: start;
+  }
+  @media (min-width: 600px) {
+    .carousel-item { flex: 0 0 240px; }
+  }
+
+  /* ─── Photo + text card ─── */
+  .pt-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .pt-card:active { transform: scale(0.98); }
+  .pt-img {
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, var(--paper-2), var(--line-strong));
+    position: relative;
+    overflow: hidden;
+  }
+  .pt-img::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(26, 25, 23, 0.72);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+  }
+  .pt-body {
+    padding: 16px 18px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .pt-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    margin-bottom: 5px;
+    letter-spacing: -0.01em;
+  }
+  .pt-text {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .pt-meta {
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--clay);
+  }
+
+  /* ─── Rules list ─── */
+  .rules-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .rules-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .rules-list li::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: var(--clay);
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Checkout steps ─── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--clay-soft);
+    color: var(--clay-dark);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    padding-top: 3px;
+  }
+
+  /* ─── FAQ accordion ─── */
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 16px 0;
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-q::after {
+    content: '+';
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--clay);
+    transition: transform 0.25s var(--ease);
+  }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s var(--ease), padding 0.35s var(--ease);
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+    padding-bottom: 16px;
+  }
+
+  /* ─── Review card ─── */
+  .review-stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 4px 0 8px;
+  }
+
+  /* ─── Protected zone ─── */
+  .lock-zone {
+    background: linear-gradient(145deg, var(--panel), var(--clay-soft));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 36px;
+  }
+  .lock-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--clay-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 22px;
+  }
+  .lock-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .lock-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .lock-form {
+    display: flex;
+    gap: 8px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .lock-form input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-xs);
+    font-size: 15px;
+    font-family: var(--font);
+    text-align: center;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--panel);
+  }
+  .lock-form input:focus {
+    outline: none;
+    border-color: var(--clay);
+    box-shadow: 0 0 0 3px var(--clay-soft);
+  }
+  .lock-form button {
+    padding: 12px 18px;
+    background: var(--clay);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-xs);
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .lock-form button:hover { background: var(--clay-dark); }
+  .lock-error {
+    color: var(--clay-dark);
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* ─── Unlocked content ─── */
+  .secret-content {
+    display: none;
+  }
+  .secret-content.visible { display: block; }
+
+  .wifi-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .wifi-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .wifi-row:last-child { border-bottom: none; }
+  .wifi-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .wifi-value {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'SF Mono', Consolas, monospace;
+  }
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--clay-dark);
+    cursor: pointer;
+    margin-left: 8px;
+  }
+  .copy-btn:hover { background: var(--clay-soft); }
+
+  /* ─── Emergency ─── */
+  .emergency {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--clay);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .emergency-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--clay-dark);
+    margin-bottom: 6px;
+  }
+  .emergency-phone {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .emergency-info {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* ─── Boutique teaser ─── */
+  .boutique-teaser {
+    background: linear-gradient(135deg, #f9f6f0, #f0ebe2);
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+  }
+  .boutique-teaser h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .boutique-teaser p {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .footer strong {
+    color: var(--clay);
+    font-weight: 600;
+  }
+
+  /* ─── Floating nav ─── */
+  .float-nav {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 25, 23, 0.88);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 8px 6px;
+    display: flex;
+    gap: 2px;
+    z-index: 50;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  .float-nav a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .float-nav a:hover,
+  .float-nav a.active {
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+  }
+  @media (max-width: 420px) {
+    .float-nav a { padding: 8px 9px; font-size: 10.5px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="eyebrow">Philia Conciergerie · Générateur</div>
-    <h1>Ajouter un nouveau logement</h1>
-    <p class="sub">Remplissez ce formulaire, puis cliquez sur "Publier en ligne" en bas.</p>
-  </header>
 
-  <div class="field full">
-    <label>Identifiant du logement <span class="hint">(sans espace ni accent)</span></label>
-    <input id="slug" placeholder="ex. capitole-2">
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-brand">Philia Conciergerie</div>
+  <div class="topbar-code locked" id="topbarCode">
+    <span class="dot"></span>
+    <span id="topbarStatus">Code requis</span>
   </div>
-
-  <div class="part-title">1. Contenu public</div>
-  <div class="part-sub">Visible par tout le monde, sans code.</div>
-
-  <div class="grid">
-    <div>
-      <div class="field"><label>Nom du logement</label><input id="nom" placeholder="ex. Le Capitole"></div>
-      <div class="field">
-        <label>Adresse</label>
-        <input id="adresse" placeholder="Adresse complète">
-        <div class="list-hint" id="geoStatus" style="margin-top:6px;">
-          <button type="button" id="geocoder" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:4px 8px;cursor:pointer;color:var(--clay-dark);">Localiser cette adresse sur la carte</button>
-        </div>
-      </div>
-      <div class="field"><label>Description</label><textarea id="description"></textarea></div>
-      <div class="field"><label>Arrivée</label><input id="arrivee" placeholder="ex. à partir de 16h00"></div>
-      <div class="field"><label>Départ</label><input id="depart" placeholder="ex. avant 11h00"></div>
-      <div class="field"><label>Contact urgence</label><input id="contactUrgence" placeholder="06 00 00 00 00"></div>
-      <div class="field"><label>Poubelles et tri</label><textarea id="poubelles"></textarea></div>
-    </div>
-
-    <div>
-      <div class="field">
-        <label>Photos d'accueil <span class="hint">(un type par ligne)</span></label>
-        <div class="list-block"><textarea id="photosAccueil" placeholder="salon&#10;chambre double"></textarea></div>
-        <div class="list-hint" id="photosAccueilHint"></div>
-      </div>
-      <div class="field">
-        <label>Règles de la maison <span class="hint">(une par ligne)</span></label>
-        <div class="list-block"><textarea id="regles" placeholder="Non-fumeur"></textarea></div>
-      </div>
-      <div class="field">
-        <label>Recommandations <span class="hint">(Nom — description)</span></label>
-        <div class="list-block"><textarea id="recommandations"></textarea></div>
-      </div>
-      <div class="field">
-        <label>Photos de la ville <span class="hint">(un type par ligne)</span></label>
-        <div class="list-block"><textarea id="photosVille"></textarea></div>
-        <div class="list-hint" id="photosVilleHint"></div>
-      </div>
-      <div class="field">
-        <label>Check-out <span class="hint">(une étape par ligne)</span></label>
-        <div class="list-block"><textarea id="checkout"></textarea></div>
-      </div>
-      <div class="field">
-        <label>Notre boutique <span class="hint">(Nom — description — prix)</span></label>
-        <div class="list-block"><textarea id="boutique"></textarea></div>
-      </div>
-      <div class="field"><label>Info urgence locale</label><textarea id="urgencesInfo"></textarea></div>
-      <div class="field">
-        <label>Avis voyageurs <span class="hint">(Nom — note sur 5 — commentaire)</span></label>
-        <div class="list-block"><textarea id="avis"></textarea></div>
-      </div>
-      <div class="field">
-        <label>FAQ <span class="hint">(Question — Réponse)</span></label>
-        <div class="list-block"><textarea id="faq"></textarea></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="part-title">2. Contenu protégé par code</div>
-  <div class="part-sub protected">Affiché uniquement après saisie du bon code.</div>
-
-  <div class="grid">
-    <div>
-      <div class="field">
-        <label>Code d'accès au livret</label>
-        <div style="display:flex; gap:8px;">
-          <input id="codeVerif" placeholder="ex. AB72XP" style="flex:1;">
-          <button type="button" id="genCode" style="font-family:-apple-system,sans-serif;font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:0 10px;cursor:pointer;color:var(--clay-dark);white-space:nowrap;">Générer</button>
-        </div>
-      </div>
-      <div class="field"><label>Nom du réseau wifi</label><input id="wifiNom"></div>
-      <div class="field"><label>Mot de passe wifi</label><input id="wifiMdp"></div>
-      <div class="field">
-        <label>Instructions d'accès</label>
-        <textarea id="accesDescription"></textarea>
-      </div>
-      <div class="field">
-        <label>Photos d'accès <span class="hint">(inclure la boîte à clés)</span></label>
-        <div class="list-block"><textarea id="accesPhotos"></textarea></div>
-        <div class="list-hint" id="accesPhotosHint"></div>
-      </div>
-    </div>
-    <div>
-      <div class="field">
-        <label>Équipements <span class="hint">(Nom — description — photo optionnelle)</span></label>
-        <div class="list-block"><textarea id="equipements"></textarea></div>
-        <div class="list-hint" id="equipementsHint"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="part-title">3. Publier</div>
-  <div class="part-sub">Publie directement le logement sur le site.</div>
-
-  <div class="field">
-    <label>Mot de passe administrateur</label>
-    <input type="password" id="motDePasseAdmin">
-  </div>
-
-  <button type="button" id="publier" style="font-family:-apple-system,sans-serif;font-weight:600;background:var(--clay);color:#fff;border:none;padding:12px 22px;border-radius:6px;cursor:pointer;font-size:14px;">Publier en ligne</button>
-
-  <div id="resultatPublication" style="margin-top:16px;"></div>
-
-  <div class="output-panel" style="margin-top:36px;">
-    <div class="output-header">
-      <h2>Sauvegarde manuelle — data/logements.json</h2>
-      <button class="copy" id="copyData">Copier</button>
-    </div>
-    <pre id="outData"></pre>
-  </div>
-
-  <div class="output-panel">
-    <div class="output-header">
-      <h2>Sauvegarde manuelle — coffre-fort KV</h2>
-      <button class="copy" id="copyKV">Copier la valeur</button>
-    </div>
-    <div class="kv-key">Key : <strong id="kvKeyDisplay">—</strong></div>
-    <pre id="outKV"></pre>
-  </div>
-
-  <p class="note">Le bouton "Publier en ligne" fait tout automatiquement.</p>
 </div>
+
+<div class="wrap">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="hero" id="hero">
+    <div class="hero-track" id="heroTrack">
+      <div class="hero-slide"></div>
+      <div class="hero-slide" style="background:linear-gradient(145deg,#c8c0b0,#b0a898 50%,#9a9180);"></div>
+      <div class="hero-slide" style="background:linear-gradient(145deg,#b8b0a0,#a09888 50%,#8a8272);"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Votre séjour</div>
+      <h1 class="hero-title" id="heroName">Le Capitole</h1>
+      <div class="hero-addr" id="heroAddr">12 place du Capitole, 31000 Toulouse</div>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <div class="hero-dot active"></div>
+      <div class="hero-dot"></div>
+      <div class="hero-dot"></div>
+    </div>
+  </div>
+
+  <!-- Quick info -->
+  <div class="quick-info">
+    <div class="quick-card">
+      <div class="quick-label">Arrivée</div>
+      <div class="quick-value" id="infoArrivee">À partir de 16h00</div>
+    </div>
+    <div class="quick-card">
+      <div class="quick-label">Départ</div>
+      <div class="quick-value" id="infoDepart">Avant 11h00</div>
+    </div>
+  </div>
+
+  <!-- ═══ BIENVENUE ═══ -->
+  <section class="section" id="sec-welcome">
+    <div class="section-head">
+      <h2 class="section-title">Bienvenue</h2>
+    </div>
+    <div class="text-card">
+      <p id="descText">Appartement lumineux au cœur de Toulouse, à deux pas de la place du Capitole. Idéal pour découvrir la ville rose en toute sérénité. Nous avons tout préparé pour que votre séjour soit doux et sans souci.</p>
+    </div>
+  </section>
+
+  <!-- ═══ PHOTOS ACCUEIL ═══ -->
+  <section class="section" id="sec-photos">
+    <div class="section-head">
+      <h2 class="section-title">Le logement</h2>
+      <span class="section-sub">Faites glisser →</span>
+    </div>
+    <div class="carousel" id="carouselPhotos">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ ZONE PROTÉGÉE ═══ -->
+  <div class="lock-zone" id="lockZone">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">Accès & Wi-Fi</div>
+    <div class="lock-sub">Entrez le code reçu dans votre message de confirmation</div>
+    <div class="lock-form">
+      <input type="text" id="codeInput" placeholder="CODE" maxlength="8" autocomplete="off">
+      <button type="button" id="unlockBtn">Ouvrir</button>
+    </div>
+    <div class="lock-error" id="lockError">Code incorrect, réessayez</div>
+  </div>
+
+  <div class="secret-content" id="secretContent">
+
+    <!-- Wi-Fi -->
+    <section class="section" id="sec-wifi">
+      <div class="section-head">
+        <h2 class="section-title">Wi-Fi</h2>
+      </div>
+      <div class="wifi-card">
+        <div class="wifi-row">
+          <div>
+            <div class="wifi-label">Réseau</div>
+            <div class="wifi-value" id="wifiNom">Philia_Guest</div>
+          </div>
+          <button class="copy-btn" data-copy="wifiNom">Copier</button>
+        </div>
+        <div class="wifi-row">
+          <div>
+            <div class="wifi-label">Mot de passe</div>
+            <div class="wifi-value" id="wifiMdp">••••••••</div>
+          </div>
+          <button class="copy-btn" data-copy="wifiMdp">Copier</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accès -->
+    <section class="section" id="sec-acces">
+      <div class="section-head">
+        <h2 class="section-title">Comment entrer</h2>
+      </div>
+      <div class="text-card" style="margin-bottom:16px;">
+        <p id="accesText">La boîte à clés se trouve à droite de la porte d’entrée, sous le pot de fleurs. Code de la boîte : 4582. Montez au 2ᵉ étage, porte de gauche.</p>
+      </div>
+      <div class="carousel" id="carouselAcces">
+        <!-- filled by JS -->
+      </div>
+    </section>
+
+    <!-- Équipements -->
+    <section class="section" id="sec-equip">
+      <div class="section-head">
+        <h2 class="section-title">Équipements</h2>
+        <span class="section-sub">Faites glisser →</span>
+      </div>
+      <div class="carousel" id="carouselEquip">
+        <!-- filled by JS -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══ RÈGLES ═══ -->
+  <section class="section" id="sec-regles">
+    <div class="section-head">
+      <h2 class="section-title">Règles de la maison</h2>
+    </div>
+    <div class="text-card">
+      <ul class="rules-list" id="reglesList">
+        <li>Non-fumeur à l’intérieur</li>
+        <li>Pas de fête ni de bruit après 22h</li>
+        <li>Animaux sur demande uniquement</li>
+        <li>Respecter les voisins</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ RECOMMANDATIONS ═══ -->
+  <section class="section" id="sec-reco">
+    <div class="section-head">
+      <h2 class="section-title">Nos recommandations</h2>
+      <span class="section-sub">Faites glisser →</span>
+    </div>
+    <div class="carousel" id="carouselReco">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ VILLE ═══ -->
+  <section class="section" id="sec-ville">
+    <div class="section-head">
+      <h2 class="section-title">Autour de vous</h2>
+      <span class="section-sub">Faites glisser →</span>
+    </div>
+    <div class="carousel" id="carouselVille">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ CHECK-OUT ═══ -->
+  <section class="section" id="sec-checkout">
+    <div class="section-head">
+      <h2 class="section-title">Avant de partir</h2>
+    </div>
+    <div class="text-card">
+      <div class="steps" id="checkoutSteps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ranger la vaisselle et démarrer le lave-vaisselle</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Baisser le chauffage / éteindre la clim</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Fermer les volets et les fenêtres</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Déposer les clés dans la boîte à clés</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BOUTIQUE (teaser) ═══ -->
+  <section class="section" id="sec-boutique">
+    <div class="section-head">
+      <h2 class="section-title">Petite attention</h2>
+    </div>
+    <div class="boutique-teaser">
+      <h3>Bientôt disponible</h3>
+      <p>Panier petit-déjeuner, bouteille de vin, fleurs…<br>Notre boutique d’extras arrive très bientôt.</p>
+    </div>
+  </section>
+
+  <!-- ═══ AVIS ═══ -->
+  <section class="section" id="sec-avis">
+    <div class="section-head">
+      <h2 class="section-title">Ils ont adoré</h2>
+      <span class="section-sub">Faites glisser →</span>
+    </div>
+    <div class="carousel" id="carouselAvis">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="section" id="sec-faq">
+    <div class="section-head">
+      <h2 class="section-title">Questions fréquentes</h2>
+    </div>
+    <div class="text-card" id="faqList">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ URGENCE ═══ -->
+  <section class="section" id="sec-urgence">
+    <div class="emergency">
+      <div class="emergency-title">Contact d’urgence</div>
+      <div class="emergency-phone" id="contactPhone">06 12 34 56 78</div>
+      <div class="emergency-info" id="urgenceInfo">En cas de problème technique ou d’urgence, appelez-nous directement. Pour les urgences médicales : 15 · Police : 17 · Pompiers : 18</div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Avec soin par <strong>Philia Conciergerie</strong><br>
+    Bon séjour ✨
+  </div>
+
+</div>
+
+<!-- Floating nav -->
+<nav class="float-nav">
+  <a href="#sec-welcome">Accueil</a>
+  <a href="#lockZone">Accès</a>
+  <a href="#sec-reco">Sortir</a>
+  <a href="#sec-checkout">Départ</a>
+  <a href="#sec-urgence">Aide</a>
+</nav>
+
 <script>
-  const ids = ['slug','nom','adresse','description','arrivee','depart','contactUrgence','poubelles',
-    'photosAccueil','regles','recommandations','photosVille','checkout','boutique','urgencesInfo','avis','faq',
-    'codeVerif','wifiNom','wifiMdp','accesDescription','accesPhotos','equipements','motDePasseAdmin'];
-  const el = {};
-  ids.forEach(id => el[id] = document.getElementById(id));
+/* ═══════════════════════════════════════════
+   DONNÉES EXEMPLE — à remplacer par vos données
+   (générées par le générateur ou chargées via API)
+═══════════════════════════════════════════ */
+const DATA = {
+  nom: "Le Capitole",
+  adresse: "12 place du Capitole, 31000 Toulouse",
+  description: "Appartement lumineux au cœur de Toulouse, à deux pas de la place du Capitole. Idéal pour découvrir la ville rose en toute sérénité. Nous avons tout préparé pour que votre séjour soit doux et sans souci.",
+  arrivee: "À partir de 16h00",
+  depart: "Avant 11h00",
+  contactUrgence: "06 12 34 56 78",
+  urgencesInfo: "En cas de problème technique ou d’urgence, appelez-nous directement. Pour les urgences médicales : 15 · Police : 17 · Pompiers : 18",
+  photosAccueil: ["salon", "chambre double", "cuisine", "salle de bain"],
+  reglesMaison: [
+    "Non-fumeur à l’intérieur",
+    "Pas de fête ni de bruit après 22h",
+    "Animaux sur demande uniquement",
+    "Respecter les voisins"
+  ],
+  recommandations: [
+    { nom: "Boulangerie Martin", description: "Pain au levain exceptionnel, à 3 min à pied" },
+    { nom: "Café Bibent", description: "Terrasse mythique face au Capitole" },
+    { nom: "Jardin du Trocadéro", description: "Pause verte idéale en fin d’après-midi" },
+    { nom: "Marché Victor Hugo", description: "Produits locaux et fromages le matin" }
+  ],
+  photosVille: ["place du capitole", "garonne", "basilique saint-sernin", "canal du midi"],
+  checkout: [
+    "Ranger la vaisselle et démarrer le lave-vaisselle",
+    "Baisser le chauffage / éteindre la clim",
+    "Fermer les volets et les fenêtres",
+    "Déposer les clés dans la boîte à clés"
+  ],
+  avis: [
+    { nom: "Sophie", note: 5, commentaire: "Séjour parfait, appartement impeccable et super accueil." },
+    { nom: "Thomas", note: 5, commentaire: "Emplacement idéal, on se sent vraiment comme à la maison." },
+    { nom: "Léa", note: 4, commentaire: "Très bel endroit, juste un peu de bruit de rue le soir." }
+  ],
+  faq: [
+    { question: "Y a-t-il un parking ?", reponse: "Oui, une place privée dans la cour intérieure. Merci de nous prévenir à l’avance." },
+    { question: "Peut-on arriver plus tôt ?", reponse: "Selon disponibilités. Contactez-nous la veille, on fait au mieux." },
+    { question: "Y a-t-il une machine à laver ?", reponse: "Oui, dans la salle de bain. Lessive fournie." },
+    { question: "Comment fonctionne le chauffage ?", reponse: "Thermostat dans le salon. Mode auto recommandé." }
+  ],
+  /* Secret (normalement derrière le code) */
+  code: "AB72XP",
+  wifiNom: "Philia_Guest",
+  wifiMotDePasse: "Capitole2024!",
+  accesDescription: "La boîte à clés se trouve à droite de la porte d’entrée, sous le pot de fleurs. Code de la boîte : 4582. Montez au 2ᵉ étage, porte de gauche.",
+  accesPhotos: ["porte entree", "boite a cles", "interphone"],
+  equipements: [
+    { nom: "Machine à café", description: "Nespresso. Capsules dans le tiroir du bas." },
+    { nom: "Lave-linge", description: "Programme rapide 30 min. Lessive fournie." },
+    { nom: "TV & Netflix", description: "Compte invité déjà connecté." },
+    { nom: "Fer à repasser", description: "Dans le placard de l’entrée, avec table." }
+  ]
+};
 
-  function lines(id) { return el[id].value.split('\n').map(s => s.trim()).filter(Boolean); }
-  function pairLines(id) {
-    return lines(id).map(line => {
-      const [nom, ...rest] = line.split('—');
-      return { nom: (nom || '').trim(), description: rest.join('—').trim() };
-    });
-  }
-  function tripleLines(id) {
-    return lines(id).map(line => {
-      const parts = line.split('—').map(p => p.trim());
-      return { nom: parts[0] || '', description: parts[1] || '', extra: parts[2] || '' };
-    });
-  }
-  function slugify(str) {
-    return String(str).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '');
-  }
-  function photoList(fieldId, hintId, slug, nomSlug) {
-    const types = lines(fieldId);
-    const files = types.map(t => {
-      const match = t.match(/\.(jpg|jpeg|png|webp)$/i);
-      if (match) {
-        const ext = match[1].toLowerCase();
-        const base = t.slice(0, -match[0].length);
-        return `${slugify(base)}-${nomSlug}.${ext}`;
-      }
-      return `${slugify(t)}-${nomSlug}.jpg`;
-    });
-    document.getElementById(hintId).textContent = files.length ? 'Renommez vos fichiers ainsi : ' + files.join(', ') : '';
-    return files.map(f => `/logements/${slug}/${f}`);
-  }
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-  let currentLat = null;
-  let currentLng = null;
+function stars(n) {
+  n = Math.min(5, Math.max(0, n || 5));
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
 
-  document.getElementById('genCode').addEventListener('click', () => {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    let code = '';
-    for (let i = 0; i < 6; i++) { code += chars[Math.floor(Math.random() * chars.length)]; }
-    el.codeVerif.value = code;
-    generate();
+/* ═══════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════ */
+function renderPublic() {
+  document.getElementById('heroName').textContent = DATA.nom;
+  document.getElementById('heroAddr').textContent = DATA.adresse;
+  document.getElementById('infoArrivee').textContent = DATA.arrivee;
+  document.getElementById('infoDepart').textContent = DATA.depart;
+  document.getElementById('descText').textContent = DATA.description;
+  document.getElementById('contactPhone').textContent = DATA.contactUrgence;
+  document.getElementById('urgenceInfo').textContent = DATA.urgencesInfo;
+
+  // Photos accueil
+  const cPhotos = document.getElementById('carouselPhotos');
+  cPhotos.innerHTML = DATA.photosAccueil.map(label => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-img" data-label="${esc(label)}"></div>
+        <div class="pt-body">
+          <div class="pt-title">${esc(label)}</div>
+          <div class="pt-text">Espace du logement</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Règles
+  document.getElementById('reglesList').innerHTML =
+    DATA.reglesMaison.map(r => `<li>${esc(r)}</li>`).join('');
+
+  // Recommandations
+  const cReco = document.getElementById('carouselReco');
+  cReco.innerHTML = DATA.recommandations.map(r => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-img" data-label="Conseil"></div>
+        <div class="pt-body">
+          <div class="pt-title">${esc(r.nom)}</div>
+          <div class="pt-text">${esc(r.description)}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Ville
+  const cVille = document.getElementById('carouselVille');
+  cVille.innerHTML = DATA.photosVille.map(label => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-img" data-label="${esc(label)}"></div>
+        <div class="pt-body">
+          <div class="pt-title">${esc(label)}</div>
+          <div class="pt-text">À découvrir près de chez vous</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Checkout
+  document.getElementById('checkoutSteps').innerHTML =
+    DATA.checkout.map((s, i) => `
+      <div class="step">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-text">${esc(s)}</div>
+      </div>`).join('');
+
+  // Avis
+  const cAvis = document.getElementById('carouselAvis');
+  cAvis.innerHTML = DATA.avis.map(a => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-body" style="padding-top:22px;">
+          <div class="pt-title">${esc(a.nom)}</div>
+          <div class="review-stars">${stars(a.note)}</div>
+          <div class="pt-text">${esc(a.commentaire)}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // FAQ
+  const faqEl = document.getElementById('faqList');
+  faqEl.innerHTML = DATA.faq.map((f, i) => `
+    <div class="faq-item" data-idx="${i}">
+      <button class="faq-q" type="button">${esc(f.question)}</button>
+      <div class="faq-a">${esc(f.reponse)}</div>
+    </div>`).join('');
+
+  faqEl.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      faqEl.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
   });
+}
 
-  document.getElementById('geocoder').addEventListener('click', async () => {
-    const btn = document.getElementById('geocoder');
-    const adresse = el.adresse.value.trim();
-    if (!adresse) { alert('Renseignez d\'abord une adresse.'); return; }
-    btn.textContent = 'Recherche...';
-    try {
-      const res = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(adresse));
-      const results = await res.json();
-      if (results && results.length > 0) {
-        currentLat = parseFloat(results[0].lat);
-        currentLng = parseFloat(results[0].lon);
-        btn.textContent = 'Adresse localisée ✓ (' + currentLat.toFixed(4) + ', ' + currentLng.toFixed(4) + ')';
-      } else {
-        btn.textContent = 'Adresse introuvable, réessayez';
-        currentLat = null; currentLng = null;
-      }
-    } catch { btn.textContent = 'Erreur, réessayez'; }
-    generate();
-  });
+function renderSecret() {
+  document.getElementById('wifiNom').textContent = DATA.wifiNom;
+  document.getElementById('wifiMdp').textContent = DATA.wifiMotDePasse;
+  document.getElementById('accesText').textContent = DATA.accesDescription;
 
-  let lastPublicObj = null, lastSecretObj = null, lastSlug = '';
+  const cAcces = document.getElementById('carouselAcces');
+  cAcces.innerHTML = DATA.accesPhotos.map(label => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-img" data-label="${esc(label)}"></div>
+        <div class="pt-body">
+          <div class="pt-title">${esc(label)}</div>
+          <div class="pt-text">Repère d’accès</div>
+        </div>
+      </div>
+    </div>`).join('');
 
-  function generate() {
-    const slug = el.slug.value.trim() || 'identifiant-logement';
-    const nomSlug = slugify(el.nom.value) || slug;
-    const photosAccueil = photoList('photosAccueil', 'photosAccueilHint', slug, nomSlug);
-    const photosVille = photoList('photosVille', 'photosVilleHint', slug, nomSlug);
-    const accesPhotos = photoList('accesPhotos', 'accesPhotosHint', slug, nomSlug);
-    const regles = lines('regles');
-    const reco = pairLines('recommandations');
-    const checkout = lines('checkout');
-    const boutique = tripleLines('boutique').map(b => ({ nom: b.nom, description: b.description, prix: b.extra }));
-    const avis = tripleLines('avis').map(a => ({ nom: a.nom, note: parseInt(a.description, 10) || 5, commentaire: a.extra }));
-    const faq = pairLines('faq').map(f => ({ question: f.nom, reponse: f.description }));
-    const equipementsRaw = tripleLines('equipements');
-    const equipementsHintFiles = equipementsRaw.filter(e => e.extra).map(e => `${slugify(e.extra)}-${nomSlug}.jpg`);
-    document.getElementById('equipementsHint').textContent = equipementsHintFiles.length ? 'Renommez les photos ainsi : ' + equipementsHintFiles.join(', ') : '';
-    const equipements = equipementsRaw.map(e => ({ nom: e.nom, description: e.description, photo: e.extra ? `/logements/${slug}/${slugify(e.extra)}-${nomSlug}.jpg` : '' }));
+  const cEquip = document.getElementById('carouselEquip');
+  cEquip.innerHTML = DATA.equipements.map(e => `
+    <div class="carousel-item">
+      <div class="pt-card">
+        <div class="pt-img" data-label="${esc(e.nom)}"></div>
+        <div class="pt-body">
+          <div class="pt-title">${esc(e.nom)}</div>
+          <div class="pt-text">${esc(e.description)}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
 
-    const publicObj = {
-      nom: el.nom.value.trim(), adresse: el.adresse.value.trim(), description: el.description.value.trim(),
-      arrivee: el.arrivee.value.trim(), depart: el.depart.value.trim(), lat: currentLat, lng: currentLng,
-      photosAccueil, reglesMaison: regles, poubelles: el.poubelles.value.trim(), recommandations: reco,
-      photosVille, checkout, boutique, contactUrgence: el.contactUrgence.value.trim(),
-      urgencesInfo: el.urgencesInfo.value.trim(), avis, faq,
-    };
-    const secretObj = {
-      code: el.codeVerif.value.trim(), wifiNom: el.wifiNom.value.trim(), wifiMotDePasse: el.wifiMdp.value.trim(),
-      accesDescription: el.accesDescription.value.trim(), accesPhotos, equipements,
-    };
-    lastPublicObj = publicObj; lastSecretObj = secretObj; lastSlug = slug;
-    document.getElementById('outData').textContent = `"${slug}": ${JSON.stringify(publicObj, null, 2)}`;
-    document.getElementById('outKV').textContent = JSON.stringify(secretObj);
-    document.getElementById('kvKeyDisplay').textContent = slug;
+/* ═══════════════════════════════════════════
+   HERO CAROUSEL (auto)
+═══════════════════════════════════════════ */
+let heroIndex = 0;
+const heroTrack = document.getElementById('heroTrack');
+const heroDots = document.querySelectorAll('#heroDots .hero-dot');
+const heroCount = heroTrack.children.length;
+
+function goHero(i) {
+  heroIndex = (i + heroCount) % heroCount;
+  heroTrack.style.transform = `translateX(-${heroIndex * 100}%)`;
+  heroDots.forEach((d, idx) => d.classList.toggle('active', idx === heroIndex));
+}
+setInterval(() => goHero(heroIndex + 1), 4500);
+heroDots.forEach((d, i) => d.addEventListener('click', () => goHero(i)));
+
+/* Swipe on hero */
+let touchX = null;
+document.getElementById('hero').addEventListener('touchstart', e => {
+  touchX = e.changedTouches[0].screenX;
+}, { passive: true });
+document.getElementById('hero').addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].screenX - touchX;
+  if (Math.abs(dx) > 40) goHero(heroIndex + (dx < 0 ? 1 : -1));
+  touchX = null;
+}, { passive: true });
+
+/* ═══════════════════════════════════════════
+   UNLOCK
+═══════════════════════════════════════════ */
+document.getElementById('unlockBtn').addEventListener('click', tryUnlock);
+document.getElementById('codeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') tryUnlock();
+});
+
+function tryUnlock() {
+  const input = document.getElementById('codeInput').value.trim().toUpperCase();
+  const error = document.getElementById('lockError');
+  if (input === DATA.code.toUpperCase()) {
+    error.style.display = 'none';
+    document.getElementById('lockZone').style.display = 'none';
+    document.getElementById('secretContent').classList.add('visible');
+    const bar = document.getElementById('topbarCode');
+    bar.classList.remove('locked');
+    document.getElementById('topbarStatus').textContent = 'Déverrouillé';
+    renderSecret();
+    setTimeout(() => {
+      document.getElementById('sec-wifi').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  } else {
+    error.style.display = 'block';
+    document.getElementById('codeInput').value = '';
+    document.getElementById('codeInput').focus();
   }
+}
 
-  document.getElementById('publier').addEventListener('click', async () => {
-    const btn = document.getElementById('publier');
-    const resultat = document.getElementById('resultatPublication');
-    if (!el.motDePasseAdmin.value.trim()) { resultat.innerHTML = '<div class="error-msg">Merci de renseigner le mot de passe administrateur.</div>'; return; }
-    if (!lastSlug || lastSlug === 'identifiant-logement') { resultat.innerHTML = '<div class="error-msg">Merci de renseigner un identifiant.</div>'; return; }
-    btn.textContent = 'Publication en cours...'; btn.disabled = true; resultat.innerHTML = '';
-    try {
-      const res = await fetch('/api/admin/ajouter-logement', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ motDePasseAdmin: el.motDePasseAdmin.value.trim(), slug: lastSlug, public: lastPublicObj, secret: lastSecretObj }),
+/* Copy buttons */
+document.addEventListener('click', e => {
+  if (!e.target.classList.contains('copy-btn')) return;
+  const id = e.target.dataset.copy;
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = e.target.textContent;
+    e.target.textContent = '✓';
+    setTimeout(() => e.target.textContent = orig, 1200);
+  });
+});
+
+/* Floating nav active state */
+const sections = ['sec-welcome', 'lockZone', 'sec-reco', 'sec-checkout', 'sec-urgence'];
+const navLinks = document.querySelectorAll('.float-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
       });
-      const data = await res.json();
-      if (!res.ok) {
-        resultat.innerHTML = '<div class="error-msg">' + (data.error || 'Échec de la publication.') + '</div>';
-      } else {
-        resultat.innerHTML = '<div class="list-block" style="display:flex; gap:8px; align-items:center;"><input readonly value="' + data.url + '" style="flex:1;" id="lienPublie"><button type="button" class="copy" id="copierLien">Copier le lien</button></div><div class="list-hint">Comptez 1 à 2 minutes avant que le lien soit actif.</div>';
-        document.getElementById('copierLien').addEventListener('click', () => {
-          navigator.clipboard.writeText(data.url);
-          const b = document.getElementById('copierLien');
-          b.textContent = 'Copié ✓';
-          setTimeout(() => { b.textContent = 'Copier le lien'; }, 1600);
-        });
-      }
-    } catch { resultat.innerHTML = '<div class="error-msg">Erreur de connexion, réessayez.</div>'; }
-    btn.textContent = 'Publier en ligne'; btn.disabled = false;
+    }
   });
+}, { rootMargin: '-40% 0px -40% 0px' });
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
 
-  ids.forEach(id => el[id].addEventListener('input', generate));
-  function wireCopy(btnId, targetId) {
-    document.getElementById(btnId).addEventListener('click', () => {
-      const btn = document.getElementById(btnId);
-      navigator.clipboard.writeText(document.getElementById(targetId).textContent).then(() => {
-        const original = btn.textContent;
-        btn.textContent = 'Copié ✓'; btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
-      });
-    });
-  }
-  wireCopy('copyData', 'outData');
-  wireCopy('copyKV', 'outKV');
-  generate();
+/* Init */
+renderPublic();
 </script>
 </body>
 </html>
