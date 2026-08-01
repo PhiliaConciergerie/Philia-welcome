@@ -73,8 +73,8 @@ export default function CartePlan({ lat, lng, nom }) {
             cat.items.forEach((item) => {
               window.L.circleMarker([item.lat, item.lon], {
                 radius: 6,
-                color: '#a8623f',
-                fillColor: '#a8623f',
+                color: '#b56a42',
+                fillColor: '#b56a42',
                 fillOpacity: 0.85,
               })
                 .addTo(mapRef.current)
@@ -90,18 +90,15 @@ export default function CartePlan({ lat, lng, nom }) {
 
   return (
     <div>
-      <div
-        ref={containerRef}
-        style={{ height: 320, borderRadius: 8, border: '1px solid var(--line)', marginBottom: 16 }}
-      />
-      {erreur && <div className="error-msg">{erreur}</div>}
+      <div ref={containerRef} className="map-wrap" style={{ height: 280 }} />
+      {erreur && <div className="lock-error">{erreur}</div>}
       {lieux &&
         lieux.map((cat) => (
-          <div className="card" key={cat.label}>
+          <div className="card" key={cat.label} style={{ marginBottom: 10 }}>
             <div className="label">{cat.label}</div>
-            <ul>
+            <ul style={{ paddingLeft: 18, margin: 0 }}>
               {cat.items.map((item) => (
-                <li key={item.nom + item.distance}>
+                <li key={item.nom + item.distance} style={{ fontSize: 14, color: 'var(--ink-soft)' }}>
                   {item.nom} — {item.distance} m
                 </li>
               ))}
